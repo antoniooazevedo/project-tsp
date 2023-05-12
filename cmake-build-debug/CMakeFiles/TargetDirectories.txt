@@ -1,0 +1,3 @@
+/home/work/Desktop/code_file/2Sem/DA/project-tsp/cmake-build-debug/CMakeFiles/project_tsp.dir
+/home/work/Desktop/code_file/2Sem/DA/project-tsp/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/work/Desktop/code_file/2Sem/DA/project-tsp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
