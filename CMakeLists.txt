@@ -4,4 +4,8 @@ project(project_tsp)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(project_tsp
-        main.cpp)
+        main.cpp
+        src/Graph.cpp
+        src/VertexEdge.cpp
+        src/Scraper.cpp
+        )
