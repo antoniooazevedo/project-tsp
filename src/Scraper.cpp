@@ -5,10 +5,11 @@
 #include "Scraper.h"
 #include <fstream>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
-void Scraper::scrape_graph_nodes(string file_name, Graph &gh, enum type_of_graph type) {
+void Scraper::scrape_graph(string file_name, Graph &gh, enum type_of_graph type) {
     ifstream file(file_name);
     string line;
     if (type != medium) getline(file,line);
@@ -29,11 +30,37 @@ void Scraper::scrape_graph_nodes(string file_name, Graph &gh, enum type_of_graph
             getline(iss,id2,',');
             getline(iss,dist,',');
 
-            auto v1 = new Vertex(stoi(id1));
-            auto v2 = new Vertex(stoi(id2));
+            auto v1 = gh.findVertex(stoi(id1)) == nullptr ? new Vertex(stoi(id1)) : gh.findVertex(stoi(id1));
+            auto v2 = gh.findVertex(stoi(id2)) == nullptr ? new Vertex(stoi(id2)) : gh.findVertex(stoi(id2));
+
             gh.addVertex(v1);
             gh.addVertex(v2);
             gh.addEdge(v1,v2,stod(dist));
         }
+    }
+    if (type == real){
+        string edges_file_name = file_name.substr(0,file_name.find_last_of('/') + 1) + "edges.csv";
+        scrape_graph_edges(edges_file_name, gh);
+    }
+}
+
+void Scraper::scrape_graph_edges(std::string file_name, Graph &gh) {
+    ifstream file(file_name);
+    string line;
+    getline(file,line);
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string id1, id2, dist;
+
+        getline(iss,id1,',');
+        getline(iss,id2,',');
+        getline(iss,dist,',');
+
+        auto v1 = gh.findVertex(stoi(id1));
+        auto v2 = gh.findVertex(stoi(id2));
+
+        gh.addVertex(v1);
+        gh.addVertex(v2);
+        gh.addEdge(v1,v2,stod(dist));
     }
 }

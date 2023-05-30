@@ -9,6 +9,9 @@ Vertex::Vertex(int id, double longitude, double latitude)
 
 Vertex::Vertex(int id) : id(id) {}
 
+int Vertex::getId() const {
+    return this->id;
+}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
@@ -20,7 +23,7 @@ Edge * Vertex::addEdge(Vertex *d, double w) {
     return newEdge;
 }
 
-bool Vertex::removeEdge(string destID) {
+bool Vertex::removeEdge(int destID) {
     bool removedEdge = false;
     auto it = adj.begin();
     while (it != adj.end()) {

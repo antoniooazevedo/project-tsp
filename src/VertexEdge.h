@@ -69,7 +69,7 @@ public:
      * from a vertex (this).
      * Returns true if successful, and false if such edge does not exist.
      */
-    bool removeEdge(string destID);
+    bool removeEdge(int destID);
 
     /**
      * Removes all the outgoing edges of the vertex from the adjacency vector;
