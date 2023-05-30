@@ -20,7 +20,7 @@ void Scraper::scrape_graph(string file_name, Graph &gh, enum type_of_graph type)
         if (type==real){
             getline(iss,id,',');
             getline(iss,lon,',');
-            getline(iss,lat,',');
+            getline(iss,lat,'\r');
 
             auto v = new Vertex(stoi(id), stod(lon), stod(lat));
             gh.addVertex(v);
@@ -28,7 +28,7 @@ void Scraper::scrape_graph(string file_name, Graph &gh, enum type_of_graph type)
         else{
             getline(iss,id1,',');
             getline(iss,id2,',');
-            getline(iss,dist,',');
+            getline(iss,dist,'\r');
 
             auto v1 = gh.findVertex(stoi(id1)) == nullptr ? new Vertex(stoi(id1)) : gh.findVertex(stoi(id1));
             auto v2 = gh.findVertex(stoi(id2)) == nullptr ? new Vertex(stoi(id2)) : gh.findVertex(stoi(id2));
@@ -54,7 +54,7 @@ void Scraper::scrape_graph_edges(std::string file_name, Graph &gh) {
 
         getline(iss,id1,',');
         getline(iss,id2,',');
-        getline(iss,dist,',');
+        getline(iss,dist,'\r');
 
         auto v1 = gh.findVertex(stoi(id1));
         auto v2 = gh.findVertex(stoi(id2));

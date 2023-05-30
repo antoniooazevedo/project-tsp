@@ -1,20 +1,8 @@
 # ninja log v5
 361	418	1685451478152775575	project_tsp	5dd60045349f5842
-21	854	7071559310077939	CMakeFiles/project_tsp.dir/src/VertexEdge.cpp.obj	de963caab3aa2de8
-25	953	7071559311055173	CMakeFiles/project_tsp.dir/src/Scraper.cpp.obj	9ab4b6222475770e
-0	935	7071559310885633	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
-16	1007	7071559311613666	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
-1008	1189	7071559313407545	project_tsp.exe	7499e3fbfe8459cc
-3	816	7071570431789525	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
-3	711	7071570513589531	CMakeFiles/project_tsp.dir/src/Tah.cpp.obj	e4b56707cd10d401
-712	2953	7071570535948105	project_tsp.exe	9b13e4c8ef540a76
-20	1059	7071599776577250	CMakeFiles/project_tsp.dir/src/VertexEdge.cpp.obj	de963caab3aa2de8
-36	1200	7071599777988558	CMakeFiles/project_tsp.dir/src/Scraper.cpp.obj	9ab4b6222475770e
-3	1206	7071599778048388	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
-24	1225	7071599778257826	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
 23	1263	7071608510855605	CMakeFiles/project_tsp.dir/src/VertexEdge.cpp.obj	de963caab3aa2de8
-3	1367	7071608511942665	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
 27	1367	7071608511962619	CMakeFiles/project_tsp.dir/src/Scraper.cpp.obj	9ab4b6222475770e
-19	1390	7071608512182038	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
 33	1450	7071608512794794	CMakeFiles/project_tsp.dir/src/Tah.cpp.obj	e4b56707cd10d401
+3	1367	7071608511942665	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
+19	1390	7071608512182038	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
 1450	3305	7071608531310124	project_tsp.exe	9b13e4c8ef540a76
