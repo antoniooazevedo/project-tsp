@@ -10,7 +10,7 @@ int main(){
 
     auto start = chrono::high_resolution_clock::now();
 
-    Scraper::scrape_graph("../src/data/real/graph1/nodes.csv", gh, Scraper::toy);
+    Scraper::scrape_graph("../src/data/toy/tourism.csv", gh, Scraper::toy);
 
     Tah::mstBuild(&gh);
 

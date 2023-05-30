@@ -22,6 +22,8 @@ class Edge;
 class Vertex {
 public:
 
+    int queueIndex = 0; /**< Index of the vertex in the priority queue */
+
     /**
      * Constructor for the Vertex class;
      * @param id - the id of the vertex;
@@ -109,10 +111,6 @@ public:
      * @return true if the auxDist value of the vertex is smaller than the auxDist value of the vertex passed as argument;
      */
     bool operator<(Vertex & vertex) const;
-
-    int queueIndex = 0; /**< Index of the vertex in the priority queue */
-
-
 
 protected:
     int id; /**< The id of the vertex */

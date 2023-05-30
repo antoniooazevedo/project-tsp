@@ -6,3 +6,15 @@
 3	1367	7071608511942665	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
 19	1390	7071608512182038	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
 1450	3305	7071608531310124	project_tsp.exe	9b13e4c8ef540a76
+3	779	7071613036676345	CMakeFiles/project_tsp.dir/src/Scraper.cpp.obj	9ab4b6222475770e
+5	177	7071613509890784	project_tsp.exe	9b13e4c8ef540a76
+3	827	7071614464106678	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
+827	1002	7071614465832065	project_tsp.exe	9b13e4c8ef540a76
+19	1116	7071618960478879	CMakeFiles/project_tsp.dir/src/VertexEdge.cpp.obj	de963caab3aa2de8
+28	1213	7071618961446271	CMakeFiles/project_tsp.dir/src/Scraper.cpp.obj	9ab4b6222475770e
+3	1225	7071618961595864	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
+23	1249	7071618961815288	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
+33	1280	7071618962144402	CMakeFiles/project_tsp.dir/src/Tah.cpp.obj	e4b56707cd10d401
+1280	3242	7071618981714378	project_tsp.exe	9b13e4c8ef540a76
+3	866	7071655269731733	CMakeFiles/project_tsp.dir/src/Tah.cpp.obj	e4b56707cd10d401
+867	1095	7071655272014855	project_tsp.exe	9b13e4c8ef540a76

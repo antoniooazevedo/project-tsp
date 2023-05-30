@@ -7,7 +7,10 @@ using namespace std;
 Vertex::Vertex(int id, double longitude, double latitude)
         : id(id), latitude(latitude), longitude(longitude) {}
 
-Vertex::Vertex(int id) : id(id) {}
+Vertex::Vertex(int id) : id(id) {
+    this->latitude = 0;
+    this->longitude = 0;
+}
 
 int Vertex::getId() const {
     return this->id;

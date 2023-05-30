@@ -48,6 +48,7 @@ public:
      */
     bool addVertex(Vertex *v);
 
+
     /**
      * Removes a vertex with a given string id from a graph (this).
      * @param id - the id of the vertex;

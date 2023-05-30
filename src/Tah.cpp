@@ -11,7 +11,7 @@ unordered_map<int , Vertex *> Tah::mstBuild(Graph *gh) {
         v.second->setVisited(false);
     }
 
-    auto s = gh->findVertex(0);
+    auto s = vertexSet.begin()->second;
     s->setAuxDist(0);
 
     MutablePriorityQueue<Vertex> q;
