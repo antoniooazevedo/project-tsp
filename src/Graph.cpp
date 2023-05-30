@@ -55,3 +55,11 @@ bool Graph::addEdge(Vertex *v1, Vertex *v2, double distance) {
     v1->addEdge(v2, distance);
     return true;
 }
+
+bool Graph::addBidirectionalEdge(Vertex * &v1, Vertex * &v2, double dist) {
+    auto e1 = v1->addEdge(v2, dist);
+    auto e2 = v2->addEdge(v1, dist);
+    e1->setReverse(e2);
+    e2->setReverse(e1);
+    return true;
+}

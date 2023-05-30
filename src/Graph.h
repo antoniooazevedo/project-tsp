@@ -79,6 +79,7 @@ public:
 
     bool addEdge(Vertex *v1, Vertex *v2, double distance);
 
+    bool addBidirectionalEdge(Vertex * &v1, Vertex * &v2, double dist);
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */
