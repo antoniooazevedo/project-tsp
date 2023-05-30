@@ -14,6 +14,7 @@
 #include <unordered_set>
 
 #include "VertexEdge.h"
+#include "MutablePriorityQueue.h"
 
 using namespace std;
 

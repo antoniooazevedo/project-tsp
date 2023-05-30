@@ -9,6 +9,7 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
+#include "MutablePriorityQueue.h"
 
 using namespace std;
 
@@ -77,12 +78,49 @@ public:
      */
     void removeOutgoingEdges();
 
+
+    /**
+     * * Gets the auxDist value of the vertex;
+     * @return the auxDist value of the vertex;
+     */
+    double getAuxDist() const;
+
+    /**
+     * Sets the dist value of the vertex;
+     * @param dist - the dist value of the vertex;
+     */
+    void setAuxDist(double dist);
+
+    /**
+     * changes the visited value of the vertex;
+     * @param visited
+     */
+    void setVisited(bool visited);
+
+    /**
+     * Checks if the vertex has been visited;
+     * @return the visited value of the vertex;
+     */
+    bool isVisited() const;
+
+    /**
+     * Compares auxDist values of two vertices;
+     * @param vertex - the vertex to be compared to;
+     * @return true if the auxDist value of the vertex is smaller than the auxDist value of the vertex passed as argument;
+     */
+    bool operator<(Vertex & vertex) const;
+
+    int queueIndex = 0; /**< Index of the vertex in the priority queue */
+
+
+
 protected:
     int id; /**< The id of the vertex */
     vector<Edge *> adj; /**< The adjacency vector of the vertex */
     Edge *path = nullptr; /**< Edge path of the vertex */
     double latitude, longitude; /**< Latitude and longitude of the vertex */
-
+    double auxDist = 0; /**< Auxiliary distance to be used to build mst */
+    bool visited = false; /**< Boolean to check if the vertex has been visited */
     vector<Edge *> incoming; /**< Vector of incoming edges of the vertex */
 
     /**
@@ -117,6 +155,12 @@ public:
     Vertex * getOrig() const;
 
     /**
+     * Gets the distance of the edge;
+     * @return the distance of the edge;
+     */
+    double getDistance() const;
+
+    /**
      * Gets the reverse edge of the edge;
      * @return the reverse edge of the edge;
      */
@@ -133,6 +177,7 @@ protected:
     Vertex *orig; /**< Origin vertex of the edge */
     Edge *reverse = nullptr; /**< Reverse edge of the edge */
     double distance; /**< Distance of the edge */
+
 };
 
 #endif /* DA_TP_CLASSES_VERTEX_EDGE */
