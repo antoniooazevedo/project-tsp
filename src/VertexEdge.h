@@ -13,9 +13,6 @@
 using namespace std;
 
 class Edge;
-
-#define INF std::numeric_limits<int>::max()
-
 /************************* Vertex  **************************/
 
 class Vertex {
@@ -48,6 +45,10 @@ public:
      */
     Edge *getPath() const;
 
+    /**
+     * Sets the path of the vertex;
+     * @param path - the edge path of the vertex;
+     */
     void setPath(Edge *path);
 
     /**

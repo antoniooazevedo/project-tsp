@@ -7,11 +7,6 @@ std::unordered_map<int , Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
-
-/*
- * Auxiliary function to find a vertex with a given content.
- */
-
 Vertex * Graph::findVertex(const int &id) const {
     auto v = vertexSet.find(id);
     if (v == vertexSet.end()) return nullptr;
@@ -57,6 +52,7 @@ bool Graph::addEdge(Vertex *v1, Vertex *v2, double distance) {
 }
 
 bool Graph::addBidirectionalEdge(Vertex * &v1, Vertex * &v2, double dist) {
+    if (v1 == nullptr || v2 == nullptr) return false;
     auto e1 = v1->addEdge(v2, dist);
     auto e2 = v2->addEdge(v1, dist);
     e1->setReverse(e2);

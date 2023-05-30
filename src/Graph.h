@@ -26,6 +26,7 @@ public:
 
     /**
      * Auxiliary function to find a vertex with a given ID.
+     * Time Complexity: O(1
      * @param id - the id of the vertex;
      * @return the vertex with the given id;
     */
@@ -33,6 +34,7 @@ public:
 
     /**
      *  Adds a vertex with a given string id to a graph (this).
+     *  Time Complexity: O(1)
      *  @param id - the id of the vertex;
      *  @return true - if successful
      *          false - if a vertex with that id already exists.
@@ -41,6 +43,7 @@ public:
 
     /**
      * Adds a vertex to a graph (this).
+     * Time Complexity: O(1)
      * @param v - the vertex to be added;
      * @return true - if successful
      *         false - if a vertex with that id already exists.
@@ -49,6 +52,7 @@ public:
 
     /**
      * Removes a vertex with a given string id from a graph (this).
+     * Time Complexity: O(V), where V is the number of vertices of the graph.
      * @param id - the id of the vertex;
      * @return true - if successful
      *         false - if a vertex with that id does not exist.
@@ -57,6 +61,7 @@ public:
 
     /**
      * Removes a vertex from a graph (this).
+     * Time Complexity: O(V), where V is the number of vertices of the graph.
      * @param v - the vertex to be removed;
      * @return true - if successful
      *         false - if a vertex with that id does not exist.
@@ -65,20 +70,29 @@ public:
 
     /**
      * Gets the vertex set of a graph (this).
+     * Time Complexity: O(1)
      * @return the vertex set.
      */
     unordered_map<int, Vertex *> getVertexSet() const;
 
     /**
-     * Depth first search that gives each vertex the number of the connected component it is in
-     * Time Complexity: O(V+E) where V is the number of vertexes and E the number of edges of the graph (this)
-     * @param src - Vertex we are in
-     * @param i - number of the connected component
+     * Adds an edge to the graph between two vertexes with a given distance.
+     * Time Complexity: O(1)
+     * @param v1 - the first vertex
+     * @param v2 - the second vertex
+     * @param distance - the distance of the edge
+     * @return true if successful, false otherwise
      */
-    void connectedComponentsDfs(Vertex *src, int i);
-
     bool addEdge(Vertex *v1, Vertex *v2, double distance);
 
+    /**
+     * Adds a bidirectional edge to the graph between two vertexes with a given distance.
+     * Time Complexity: O(1)
+     * @param v1 - the first vertex
+     * @param v2 - the second vertex
+     * @param distance - the distance of the edge
+     * @return true if successful, false otherwise
+     */
     bool addBidirectionalEdge(Vertex * &v1, Vertex * &v2, double dist);
 
 protected:
