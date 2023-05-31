@@ -9,10 +9,11 @@ int main(){
 
     auto start = chrono::high_resolution_clock::now();
 
-    Scraper::scrape_graph("../src/data/real/graph1/nodes.csv", gh, Scraper::real);
+    Scraper::scrape_graph("../src/data/medium/edges_25.csv", gh, Scraper::medium);
 
-    vector<int> path(gh.getVertexSet().size());
-    cout << (gh.tspBT(path));
+    gh.calculateTotalDistance();
+    /*vector<int> path(gh.getVertexSet().size());
+    cout << (gh.tspBT(path));*/
 
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;

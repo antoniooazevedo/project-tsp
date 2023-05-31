@@ -97,7 +97,6 @@ void Graph::mstBuild() {
             }
         }
     }
-
 }
 
 void Graph::dfsMst(Vertex *v, vector<Vertex *> &res) {
@@ -130,7 +129,8 @@ void Graph::calculateTotalDistance() {
         auto w = res[i + 1];
         auto e = v->findEdge(w->getId());
         if (e == nullptr) {
-            totalDistance += haversineCalculator(v->getLatitude(), v->getLongitude(), w->getLatitude(),w->getLongitude());
+            totalDistance += haversineCalculator(v->getLatitude(), v->getLongitude(), w->getLatitude(),
+                                                 w->getLongitude());
         } else {
             cout << e->getDistance() << " " << v->getId() << " - " << w->getId() << endl;
             totalDistance += e->getDistance();

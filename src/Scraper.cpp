@@ -31,6 +31,8 @@ void Scraper::scrape_graph(string file_name, Graph &gh, enum type_of_graph type)
             if (type == toy) {
                 getline(iss,dist,',');
                 if (dist.back() == '\r') dist.substr(0,dist.size()-1);
+            } else{
+                getline(iss,dist,'\r');
             }
 
             auto v1 = gh.findVertex(stoi(id1)) == nullptr ? new Vertex(stoi(id1)) : gh.findVertex(stoi(id1));
