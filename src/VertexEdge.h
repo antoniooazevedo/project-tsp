@@ -1,5 +1,3 @@
-// By: Gonçalo Leão
-
 #ifndef DA_TP_CLASSES_VERTEX_EDGE
 #define DA_TP_CLASSES_VERTEX_EDGE
 
@@ -14,9 +12,6 @@
 using namespace std;
 
 class Edge;
-
-#define INF std::numeric_limits<int>::max()
-
 /************************* Vertex  **************************/
 
 class Vertex {
@@ -51,6 +46,10 @@ public:
      */
     Edge *getPath() const;
 
+    /**
+     * Sets the path of the vertex;
+     * @param path - the edge path of the vertex;
+     */
     void setPath(Edge *path);
 
     /**
@@ -58,6 +57,18 @@ public:
      * @return a vector containing all the incoming edges of the vertex;
      */
     vector<Edge *> getIncoming() const;
+
+    /**
+     * Returns whether the vertex is visited or not
+     * @return true if vertex has been visited, false otherwise
+     */
+    bool getVisited() const;
+
+    /**
+     * Sets the visited attribute of the vertex
+     * @param visited - whether the vertex has been visited or not
+     */
+    void setVisited(bool visited);
 
     /**
      * Adds an edge from the vertex (this) to the destination vertex, with a given weight;
@@ -80,7 +91,6 @@ public:
      */
     void removeOutgoingEdges();
 
-
     /**
      * * Gets the auxDist value of the vertex;
      * @return the auxDist value of the vertex;
@@ -92,12 +102,6 @@ public:
      * @param dist - the dist value of the vertex;
      */
     void setAuxDist(double dist);
-
-    /**
-     * changes the visited value of the vertex;
-     * @param visited
-     */
-    void setVisited(bool visited);
 
     /**
      * Checks if the vertex has been visited;
@@ -137,11 +141,18 @@ public:
      */
     void setLongitude(double longitude);
 
+    /**
+     * Finds an edge that connects the current vertex (this) to the destination vertex
+     * @param dest id of the destination vertex
+     * @return a pointer to the selected edge or nullptr if there is no edge connecting the current vertex to dest
+     */
+    Edge * findEdge(int dest);
+
 protected:
     int id; /**< The id of the vertex */
     vector<Edge *> adj; /**< The adjacency vector of the vertex */
     Edge *path = nullptr; /**< Edge path of the vertex */
-    double latitude, longitude;
+    double latitude, longitude; /**< Latitude and longitude of the vertex */
 
 protected:
     /**< Latitude and longitude of the vertex */
@@ -181,8 +192,12 @@ public:
     Vertex * getOrig() const;
 
     /**
+<<<<<<< HEAD
      * Gets the distance of the edge;
      * @return the distance of the edge;
+=======
+     * @return the distance between the two vertexes the edge connects
+>>>>>>> 709bc2efc96836dd83922a9f020fccff9e58d214
      */
     double getDistance() const;
 

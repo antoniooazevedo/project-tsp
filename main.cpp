@@ -11,7 +11,8 @@ int main(){
 
     Scraper::scrape_graph("../src/data/real/graph1/nodes.csv", gh, Scraper::real);
 
-    gh.calculateTotalDistance(true);
+    vector<int> path(gh.getVertexSet().size());
+    cout << (gh.tspBT(path));
 
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;

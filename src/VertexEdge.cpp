@@ -95,6 +95,9 @@ double Vertex::getAuxDist() const {
 void Vertex::setAuxDist(double aDist) {
     this->auxDist = aDist;
 }
+bool Vertex::getVisited() const {
+    return this->visited;
+}
 
 void Vertex::setVisited(bool visited) {
     this->visited = visited;
@@ -124,6 +127,15 @@ void Vertex::setLongitude(double longitude) {
     Vertex::longitude = longitude;
 }
 
+Edge *Vertex::findEdge(int dest) {
+    for (Edge *e: this->adj) {
+        if (e->getDest()->getId() == dest)
+            return e;
+    }
+
+    return nullptr;
+}
+
 /********************** Edge  ****************************/
 
 
@@ -149,5 +161,4 @@ Edge *Edge::getReverse() const {
 void Edge::setReverse(Edge *reverse) {
     this->reverse = reverse;
 }
-
 
