@@ -11,7 +11,7 @@ int main(){
 
     Scraper::scrape_graph("../src/data/real/graph1/nodes.csv", gh, Scraper::real);
 
-    gh.calculateTotalDistance(false);
+    gh.calculateTotalDistance(true);
 
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;

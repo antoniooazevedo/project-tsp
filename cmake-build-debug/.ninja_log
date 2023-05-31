@@ -40,3 +40,16 @@
 794	981	7071926536928618	project_tsp.exe	7499e3fbfe8459cc
 2	794	7071927046953965	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
 794	977	7071927048750082	project_tsp.exe	7499e3fbfe8459cc
+3	927	7072306763632965	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
+22	941	7072306763773487	CMakeFiles/project_tsp.dir/src/Scraper.cpp.obj	9ab4b6222475770e
+18	1065	7072306765003699	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
+1065	2986	7072306784184398	project_tsp.exe	7499e3fbfe8459cc
+4	846	7072307555245629	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
+847	1028	7072307557022972	project_tsp.exe	7499e3fbfe8459cc
+3	895	7072308578821771	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
+896	2614	7072308595996946	project_tsp.exe	7499e3fbfe8459cc
+3	1307	7072314062166359	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
+1308	1571	7072314064784690	project_tsp.exe	7499e3fbfe8459cc
+2	850	7072319256825272	CMakeFiles/project_tsp.dir/main.cpp.obj	fa69cf92fb4e0639
+18	1030	7072319258625860	CMakeFiles/project_tsp.dir/src/Graph.cpp.obj	4b9fd0157666ba8a
+1030	1202	7072319260327657	project_tsp.exe	7499e3fbfe8459cc

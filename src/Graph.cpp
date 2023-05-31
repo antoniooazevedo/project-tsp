@@ -115,45 +115,48 @@ void Graph::dfsMst(Vertex *v, vector<Vertex *> &res) {
 void Graph::calculateTotalDistance(bool real) {
     double totalDistance = 0;
     auto s = this->findVertex(0);
+    vector<Vertex *> res;
+
     mstBuild();
+
     for (auto v: vertexSet) {
         v.second->setVisited(false);
     }
-    vector<Vertex *> res;
+
     dfsMst(s, res);
     res.push_back(s);
 
     for (auto i = 0; i < res.size() - 1; i++) {
         auto v = res[i];
         auto w = res[i + 1];
-        double auxDistance = 0.0;
-        if (!real) {
-            for (auto &e: v->getAdj()) {
-                if (e->getDest() == w) {
-                    auxDistance = e->getDistance();
-                }
+        for (auto &e: v->getAdj()) {
+            if (e->getDest() == w) {
+                totalDistance += e->getDistance();
             }
-            totalDistance += min(auxDistance, haversineCalculator(v->getLatitude(), v->getLongitude(), w->getLatitude(), w->getLongitude())*1000);
         }
     }
 
-
+    for(auto i : res){
+        cout << i->getId() << " ";
+    }
     cout << "Total distance: " << totalDistance << endl;
 }
 
+double convert_to_radians(double coordinate) {
+    return coordinate * M_PI / 180;
+}
 
 double Graph::haversineCalculator(double lat1, double long1, double lat2, double long2) {
-    double dLat = (lat2 - lat1) * M_PI / 180.0;
-    double dLon = (long2 - long1) * M_PI / 180.0;
+    lat1 = convert_to_radians(lat1);
+    lat2 = convert_to_radians(lat2);
+    long1 = convert_to_radians(long1);
+    long2 = convert_to_radians(long2);
 
-    lat1 = (lat1) * M_PI / 180.0;
-    lat2 = (lat2) * M_PI / 180.0;
+    double delta_lat = lat2 - lat1;
+    double delta_long = long2 - long1;
 
-    double a = pow(sin(dLat / 2), 2) +
-               pow(sin(dLon / 2), 2) *
-               cos(lat1) * cos(lat2);
-
-    double rad = 6371;
-    double c = 2 * asin(sqrt(a));
-    return rad * c;
+    double aux = pow(sin(delta_lat/2), 2) + cos(lat1) * cos(lat2) * pow(sin(delta_long/2), 2);
+    double c = 2.0 * atan2(sqrt(aux), sqrt(1-aux));
+    double earth_radius = 6371000.0;
+    return earth_radius * c;
 }
