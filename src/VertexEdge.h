@@ -17,7 +17,7 @@ class Edge;
 class Vertex {
 public:
 
-    int queueIndex = 0; /**< Index of the vertex in the priority queue */
+    int queueIndex; /**< Index of the vertex in the priority queue */
 
     /**
      * Constructor for the Vertex class;
@@ -92,16 +92,16 @@ public:
     void removeOutgoingEdges();
 
     /**
-     * * Gets the auxDist value of the vertex;
-     * @return the auxDist value of the vertex;
+     * * Gets the primDist value of the vertex;
+     * @return the primDist value of the vertex;
      */
-    double getAuxDist() const;
+    double getPrimDist() const;
 
     /**
-     * Sets the dist value of the vertex;
-     * @param dist - the dist value of the vertex;
+     * Sets the primDist value of the vertex;
+     * @param dist - the lowest distance a vertex is from a vertex currently chosen in Prim's algorithm;
      */
-    void setAuxDist(double dist);
+    void setPrimDist(double dist);
 
     /**
      * Checks if the vertex has been visited;
@@ -156,7 +156,7 @@ protected:
 
 protected:
     /**< Latitude and longitude of the vertex */
-    double auxDist = 0; /**< Auxiliary distance to be used to build mst */
+    double primDist; /**< Auxiliary distance to be used to build mst */
     bool visited = false; /**< Boolean to check if the vertex has been visited */
     vector<Edge *> incoming; /**< Vector of incoming edges of the vertex */
 

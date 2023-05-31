@@ -11,11 +11,9 @@
 #include <unordered_map>
 #include <set>
 #include <string>
-#include <unordered_set>
 #include <climits>
 #include <cfloat>
 #include <cmath>
-
 #include "VertexEdge.h"
 #include "MutablePriorityQueue.h"
 #include "Graph.h"

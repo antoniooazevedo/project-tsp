@@ -1,6 +1,7 @@
 // By: Gonçalo Leão
 
 #include "Graph.h"
+#include <iomanip> // TODO: remove this!
 
 
 std::unordered_map<int, Vertex *> Graph::getVertexSet() const {
@@ -65,35 +66,32 @@ bool Graph::addBidirectionalEdge(Vertex *&v1, Vertex *&v2, double dist) {
 }
 
 void Graph::mstBuild() {
-    if (vertexSet.empty()) return;
-    for (auto v: vertexSet) {
-        v.second->setAuxDist(INFINITY);
-        v.second->setPath(nullptr);
-        v.second->setVisited(false);
+    if (vertexSet.empty()) {
+        return;
     }
 
-    Vertex *v = findVertex(0);
-    v->setAuxDist(0);
-
     MutablePriorityQueue<Vertex> q;
-    q.insert(v);
+
+    for (auto v: vertexSet) {
+        v.second->setPath(nullptr);
+        v.second->setPrimDist(DBL_MAX);
+        v.second->setVisited(false);
+        q.insert(v.second);
+    }
+
+    auto s = this->findVertex(0);
+    s->setPrimDist(0);
+    q.decreaseKey(s);
 
     while (!q.empty()) {
-        auto s = q.extractMin();
-        s->setVisited(true);
-        for (auto &e: s->getAdj()) {
+        auto v = q.extractMin();
+        v->setVisited(true);
+        for (auto &e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited()) {
-                auto oldDist = w->getAuxDist();
-                if (e->getDistance() < oldDist) {
-                    w->setAuxDist(e->getDistance());
-                    w->setPath(e);
-                    if (oldDist == INFINITY) {
-                        q.insert(w);
-                    } else {
-                        q.decreaseKey(w);
-                    }
-                }
+            if (!w->isVisited() && e->getDistance() < w->getPrimDist()) {
+                w->setPrimDist(e->getDistance());
+                w->setPath(e);
+                q.decreaseKey(w);
             }
         }
     }
@@ -132,7 +130,6 @@ void Graph::calculateTotalDistance() {
         if (e == nullptr) {
             totalDistance += haversineCalculator(v->getLatitude(), v->getLongitude(), w->getLatitude(),w->getLongitude());
         } else {
-            cout << e->getDistance() << " " << v->getId() << " - " << w->getId() << endl;
             totalDistance += e->getDistance();
         }
     }
@@ -172,8 +169,6 @@ double Graph::tspBT(vInt &path) {
 }
 
 double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step) {
-    // TODO: add the Haversine function if the edge isn't found to run on large graphs
-
     double thisSum = 0;
     Vertex *currVertex = findVertex(currVertexId);
 
