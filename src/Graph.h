@@ -12,9 +12,11 @@
 #include <set>
 #include <string>
 #include <unordered_set>
+#include <math.h>
 
 #include "VertexEdge.h"
 #include "MutablePriorityQueue.h"
+
 
 using namespace std;
 
@@ -79,8 +81,51 @@ public:
      */
     void connectedComponentsDfs(Vertex *src, int i);
 
+    /**
+     * add an edge to the graph
+     * @param v1 - first vertex
+     * @param v2 - second vertex
+     * @param distance - distance between the two vertexes
+     */
     bool addEdge(Vertex *v1, Vertex *v2, double distance);
 
+    /**
+     * add a bidirectional edge to the graph
+     * @param v1 - first vertex
+     * @param v2 - second vertex
+     * @param distance - distance between the two vertexes
+     */
+    bool addBidirectionalEdge(Vertex * &v1, Vertex * &v2, double dist);
+
+    /**
+     * builds the minimum spanning tree of the graph using Prim's algorithm
+     * complexity: O(E*log(V))
+     */
+    void mstBuild();
+
+    /**
+     * dfs that build the route for the tsp
+     *  complexity: O(V+E)
+     * @param v - vertex to start the dfs
+     * @param res - vector with the vertexes in the dfs order
+     */
+    void dfsMst(Vertex *v, vector<Vertex *> &res);
+
+    /**
+     * calculates the total distance of the route
+     */
+    void calculateTotalDistance(bool real);
+
+    /**
+     * calculate the distance between two points using the haversine formula
+     * complexity: O(1)
+     * @param lat1  - latitude of the first point
+     * @param long1 - longitude of the first point
+     * @param lat2 - latitude of the second point
+     * @param long2 - longitude of the second point
+     * @return distance between the two points
+     */
+    double haversineCalculator(double lat1, double long1, double lat2, double long2);
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */

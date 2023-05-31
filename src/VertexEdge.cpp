@@ -108,6 +108,22 @@ bool Vertex::operator<(Vertex & vertex) const {
     return this->auxDist < vertex.auxDist;
 }
 
+double Vertex::getLatitude() const {
+    return latitude;
+}
+
+void Vertex::setLatitude(double latitude) {
+    Vertex::latitude = latitude;
+}
+
+double Vertex::getLongitude() const {
+    return longitude;
+}
+
+void Vertex::setLongitude(double longitude) {
+    Vertex::longitude = longitude;
+}
+
 /********************** Edge  ****************************/
 
 

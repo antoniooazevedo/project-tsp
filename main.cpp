@@ -1,7 +1,6 @@
 #include <iostream>
 #include "src/Scraper.h"
 #include <chrono>
-#include "src/Tah.h"
 
 using namespace std;
 
@@ -10,10 +9,9 @@ int main(){
 
     auto start = chrono::high_resolution_clock::now();
 
-    Scraper::scrape_graph("../src/data/toy/tourism.csv", gh, Scraper::toy);
+    Scraper::scrape_graph("../src/data/real/graph1/nodes.csv", gh, Scraper::real);
 
-    Tah::mstBuild(&gh);
-
+    gh.calculateTotalDistance(false);
 
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;

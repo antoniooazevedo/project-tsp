@@ -28,14 +28,17 @@ void Scraper::scrape_graph(string file_name, Graph &gh, enum type_of_graph type)
         else{
             getline(iss,id1,',');
             getline(iss,id2,',');
-            getline(iss,dist,'\r');
+            if (type == toy) {
+                getline(iss,dist,',');
+                if (dist.back() == '\r') dist.substr(0,dist.size()-1);
+            }
 
             auto v1 = gh.findVertex(stoi(id1)) == nullptr ? new Vertex(stoi(id1)) : gh.findVertex(stoi(id1));
             auto v2 = gh.findVertex(stoi(id2)) == nullptr ? new Vertex(stoi(id2)) : gh.findVertex(stoi(id2));
 
             gh.addVertex(v1);
             gh.addVertex(v2);
-            gh.addEdge(v1,v2,stod(dist));
+            gh.addBidirectionalEdge(v1,v2,stod(dist));
         }
     }
     if (type == real){
@@ -61,6 +64,6 @@ void Scraper::scrape_graph_edges(std::string file_name, Graph &gh) {
 
         gh.addVertex(v1);
         gh.addVertex(v2);
-        gh.addEdge(v1,v2,stod(dist));
+        gh.addBidirectionalEdge(v1,v2,stod(dist));
     }
 }

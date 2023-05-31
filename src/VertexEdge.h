@@ -112,11 +112,39 @@ public:
      */
     bool operator<(Vertex & vertex) const;
 
+    /**
+     * Get the latitude of the vertex;
+     * @return the latitude of the vertex;
+     */
+    double getLatitude() const;
+
+
+    /**
+     * Set the latitude of the vertex;
+     * @param latitude - the latitude of the vertex;
+     */
+    void setLatitude(double latitude);
+
+    /**
+     * Get the longitude of the vertex;
+     * @return the longitude of the vertex;
+     */
+    double getLongitude() const;
+
+    /**
+     * Set the longitude of the vertex;
+     * @param longitude - the longitude of the vertex;
+     */
+    void setLongitude(double longitude);
+
 protected:
     int id; /**< The id of the vertex */
     vector<Edge *> adj; /**< The adjacency vector of the vertex */
     Edge *path = nullptr; /**< Edge path of the vertex */
-    double latitude, longitude; /**< Latitude and longitude of the vertex */
+    double latitude, longitude;
+
+protected:
+    /**< Latitude and longitude of the vertex */
     double auxDist = 0; /**< Auxiliary distance to be used to build mst */
     bool visited = false; /**< Boolean to check if the vertex has been visited */
     vector<Edge *> incoming; /**< Vector of incoming edges of the vertex */
@@ -170,12 +198,12 @@ public:
      */
     void setReverse(Edge *reverse);
 
+
 protected:
     Vertex * dest; /**< Destination vertex of the edge */
     Vertex *orig; /**< Origin vertex of the edge */
     Edge *reverse = nullptr; /**< Reverse edge of the edge */
     double distance; /**< Distance of the edge */
-
 };
 
 #endif /* DA_TP_CLASSES_VERTEX_EDGE */
