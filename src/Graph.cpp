@@ -101,4 +101,3 @@ double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, doub
 
     return bestSum;
 }
->>>>>>> backtracking-algo
