@@ -35,7 +35,7 @@ void Scraper::scrape_graph(string file_name, Graph &gh, enum type_of_graph type)
 
             gh.addVertex(v1);
             gh.addVertex(v2);
-            gh.addEdge(v1,v2,stod(dist));
+            gh.addBidirectionalEdge(v1,v2,stod(dist));
         }
     }
     if (type == real){
@@ -61,6 +61,6 @@ void Scraper::scrape_graph_edges(std::string file_name, Graph &gh) {
 
         gh.addVertex(v1);
         gh.addVertex(v2);
-        gh.addEdge(v1,v2,stod(dist));
+        gh.addBidirectionalEdge(v1,v2,stod(dist));
     }
 }

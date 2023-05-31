@@ -85,6 +85,23 @@ void Vertex::deleteEdge(Edge *edge) {
     delete edge;
 }
 
+bool Vertex::getVisited() const {
+    return this->visited;
+}
+
+void Vertex::setVisited(bool visited) {
+    this->visited = visited;
+}
+
+Edge *Vertex::findEdge(uint dest) {
+    for (Edge *e: this->adj) {
+        if (e->getDest()->getId() == dest)
+            return e;
+    }
+
+    return nullptr;
+}
+
 /********************** Edge  ****************************/
 
 
@@ -105,4 +122,8 @@ Edge *Edge::getReverse() const {
 
 void Edge::setReverse(Edge *reverse) {
     this->reverse = reverse;
+}
+
+double Edge::getDistance() const {
+    return this->distance;
 }
