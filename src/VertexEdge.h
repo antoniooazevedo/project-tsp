@@ -58,6 +58,18 @@ public:
     vector<Edge *> getIncoming() const;
 
     /**
+     * Returns whether the vertex is visited or not
+     * @return true if vertex has been visited, false otherwise
+     */
+    bool getVisited() const;
+
+    /**
+     * Sets the visited attribute of the vertex
+     * @param visited - whether the vertex has been visited or not
+     */
+    void setVisited(bool visited);
+
+    /**
      * Adds an edge from the vertex (this) to the destination vertex, with a given weight;
      * @param dest - the destination vertex;
      * @param w - the weight of the edge;
@@ -78,11 +90,19 @@ public:
      */
     void removeOutgoingEdges();
 
+    /**
+     * Finds an edge that connects the current vertex (this) to the destination vertex
+     * @param dest id of the destination vertex
+     * @return a pointer to the selected edge or nullptr if there is no edge connecting the current vertex to dest
+     */
+    Edge * findEdge(uint dest);
+
 protected:
     int id; /**< The id of the vertex */
     vector<Edge *> adj; /**< The adjacency vector of the vertex */
     Edge *path = nullptr; /**< Edge path of the vertex */
     double latitude, longitude; /**< Latitude and longitude of the vertex */
+    bool visited; /**< Whether the vertex has been visited or not */
 
     vector<Edge *> incoming; /**< Vector of incoming edges of the vertex */
 
@@ -116,6 +136,11 @@ public:
      * @return the origin vertex of the edge;
      */
     Vertex * getOrig() const;
+
+    /**
+     * @return the distance between the two vertexes the edge connects
+     */
+    double getDistance() const;
 
     /**
      * Gets the reverse edge of the edge;

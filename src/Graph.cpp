@@ -59,3 +59,46 @@ bool Graph::addBidirectionalEdge(Vertex * &v1, Vertex * &v2, double dist) {
     e2->setReverse(e1);
     return true;
 }
+
+double Graph::tspBT(vInt &path) {
+    for (auto v: vertexSet) {
+        v.second->setVisited(false);
+    }
+
+    findVertex(0)->setVisited(true);
+    path[0] = 0;
+
+    return tspBacktracking(path, 0, 0, DBL_MAX, 1);
+}
+
+double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step) {
+    // TODO: add the Haversine function if the edge isn't found to run on large graphs
+
+    double thisSum = 0;
+    Vertex *currVertex = findVertex(currVertexId);
+
+    if (step == vertexSet.size()) {
+        Edge *e = currVertex->findEdge(0);
+        return e != nullptr ? currSum + e->getDistance() : bestSum;
+    }
+
+    for (auto v: vertexSet) {
+        Vertex *destVertex = v.second;
+        Edge *e = currVertex->findEdge(v.first);
+        if (e == nullptr) continue;
+        double dist = e->getDistance();
+
+        if (!destVertex->getVisited() && currSum + dist < bestSum) {
+            destVertex->setVisited(true);
+            thisSum = tspBacktracking(path, v.first, currSum + dist, bestSum, step + 1);
+            if (thisSum < bestSum) {
+                bestSum = thisSum;
+                path[step] = v.first;
+            }
+            destVertex->setVisited(false);
+        }
+    }
+
+    return bestSum;
+}
+>>>>>>> backtracking-algo
