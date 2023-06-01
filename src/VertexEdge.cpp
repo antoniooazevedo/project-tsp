@@ -88,12 +88,12 @@ void Vertex::deleteEdge(Edge *edge) {
     delete edge;
 }
 
-double Vertex::getAuxDist() const {
-    return this->auxDist;
+double Vertex::getPrimDist() const {
+    return this->primDist;
 }
 
-void Vertex::setAuxDist(double aDist) {
-    this->auxDist = aDist;
+void Vertex::setPrimDist(double dist) {
+    this->primDist = dist;
 }
 bool Vertex::getVisited() const {
     return this->visited;
@@ -108,7 +108,7 @@ bool Vertex::isVisited() const {
 }
 
 bool Vertex::operator<(Vertex & vertex) const {
-    return this->auxDist < vertex.auxDist;
+    return this->primDist < vertex.primDist;
 }
 
 double Vertex::getLatitude() const {
