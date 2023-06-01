@@ -37,7 +37,9 @@ private:
 
     void getOption(string &option);
 
-    bool loadGraph(int group, int graph);
+    bool loadGraph(int group, string graph);
+
+    void clearVertexSet();
 };
 
 

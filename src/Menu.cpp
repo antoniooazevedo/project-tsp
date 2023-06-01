@@ -1,7 +1,3 @@
-//
-// Created by work on 31-05-2023.
-//
-
 #include "Menu.h"
 
 Menu::Menu(Graph &gh) {
@@ -36,8 +32,6 @@ void Menu::getOption(string &option) {
 
     if (option == "q" || option == "Q") {
         exit(0);
-    } else if (option == "b" || option == "B") {
-        back();
     }
 }
 
@@ -54,7 +48,15 @@ void Menu::drawMenu() {
     }
 }
 
+void Menu::clearVertexSet() {
+    for (auto & it : gh.getVertexSet()) {
+        gh.removeVertex(it.second);
+    }
+}
+
 void Menu::drawMainMenu() {
+    clearVertexSet();
+
     cout << "Choose which graph to load:" << endl;
     cout << "1 - Toy Graphs" << endl;
     cout << "2 - Medium Graphs" << endl;
@@ -62,6 +64,14 @@ void Menu::drawMainMenu() {
     cout << "q - Exit" << endl;
 
     getOption(group);
+
+    try {
+        stoi(group);
+    } catch (invalid_argument &e) {
+        cout << "Invalid option!" << endl;
+        drawMenu();
+    }
+
     if (stoi(group) < 1 || stoi(group) > 3) {
         cout << "Invalid option!" << endl;
         drawMenu();
@@ -80,7 +90,10 @@ void Menu::drawSpecificGraphs() {
 
             do {
                 getOption(graph);
-            } while (!loadGraph(1, stoi(graph)));
+                if (graph == "b" || graph == "B") {
+                    break;
+                }
+            } while (!loadGraph(1, graph));
             break;
         case 2:
             cout << "Choose which graph to load:" << endl
@@ -100,7 +113,10 @@ void Menu::drawSpecificGraphs() {
 
             do {
                 getOption(graph);
-            } while (!loadGraph(2, stoi(graph)));
+                if (graph == "b" || graph == "B") {
+                    break;
+                }
+            } while (!loadGraph(2, graph));
             break;
         case 3:
             cout << "Choose which graph to load:" << endl
@@ -111,7 +127,10 @@ void Menu::drawSpecificGraphs() {
 
             do {
                 getOption(graph);
-            } while (!loadGraph(3, stoi(graph)));
+                if (graph == "b" || graph == "B") {
+                    break;
+                }
+            } while (!loadGraph(3, graph));
             break;
         default:
             break;
@@ -120,18 +139,30 @@ void Menu::drawSpecificGraphs() {
     drawMenu();
 }
 
-bool Menu::loadGraph(int group, int graph) {
+bool Menu::loadGraph(int group, string graph) {
+
+    try {
+        stoi(graph);
+    } catch (invalid_argument &e) {
+        cout << "Invalid option!" << endl;
+        drawMenu();
+    }
+
+
     switch (group) {
         case 1:
-            switch (graph) {
+            switch (stoi(graph)) {
                 case 1:
                     Scraper::scrape_graph("../src/data/toy/shipping.csv", gh, Scraper::toy);
+                    gh.calculateTotalDistance();
                     break;
                 case 2:
                     Scraper::scrape_graph("../src/data/toy/stadiums.csv", gh, Scraper::toy);
+                    gh.calculateTotalDistance();
                     break;
                 case 3:
                     Scraper::scrape_graph("../src/data/toy/tourism.csv", gh, Scraper::toy);
+                    gh.calculateTotalDistance();
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -139,42 +170,65 @@ bool Menu::loadGraph(int group, int graph) {
             }
             break;
         case 2:
-            switch (graph) {
+            switch (stoi(graph)) {
                 case 1:
                     Scraper::scrape_graph("../src/data/medium/edges_25.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
                     break;
                 case 2:
                     Scraper::scrape_graph("../src/data/medium/edges_50.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 3:
                     Scraper::scrape_graph("../src/data/medium/edges_75.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 4:
                     Scraper::scrape_graph("../src/data/medium/edges_100.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 5:
                     Scraper::scrape_graph("../src/data/medium/edges_200.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 6:
                     Scraper::scrape_graph("../src/data/medium/edges_300.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 7:
                     Scraper::scrape_graph("../src/data/medium/edges_400.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 8:
                     Scraper::scrape_graph("../src/data/medium/edges_500.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 9:
                     Scraper::scrape_graph("../src/data/medium/edges_600.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 10:
                     Scraper::scrape_graph("../src/data/medium/edges_700.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 11:
                     Scraper::scrape_graph("../src/data/medium/edges_800.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 12:
                     Scraper::scrape_graph("../src/data/medium/edges_900.csv", gh, Scraper::medium);
+                    gh.calculateTotalDistance();
+
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -182,15 +236,21 @@ bool Menu::loadGraph(int group, int graph) {
             }
             break;
         case 3:
-            switch (graph) {
+            switch (stoi(graph)) {
                 case 1:
                     Scraper::scrape_graph("../src/data/real/graph1/nodes.csv", gh, Scraper::real);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 2:
                     Scraper::scrape_graph("../src/data/real/graph2/nodes.csv", gh, Scraper::real);
+                    gh.calculateTotalDistance();
+
                     break;
                 case 3:
                     Scraper::scrape_graph("../src/data/real/graph3/nodes.csv", gh, Scraper::real);
+                    gh.calculateTotalDistance();
+
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -200,3 +260,4 @@ bool Menu::loadGraph(int group, int graph) {
     }
     return true;
 }
+
