@@ -1,19 +1,16 @@
 #include <iostream>
 #include "src/Scraper.h"
+#include "src/Menu.h"
 #include <chrono>
 
 using namespace std;
 
 int main(){
-    Graph gh;
+    auto *gh = new Graph();
 
     auto start = chrono::high_resolution_clock::now();
 
-    Scraper::scrape_graph("../src/data/medium/edges_25.csv", gh, Scraper::medium);
-
-    gh.calculateTotalDistance();
-    /*vector<int> path(gh.getVertexSet().size());
-    cout << (gh.tspBT(path));*/
+    Menu menu(*gh);
 
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;
