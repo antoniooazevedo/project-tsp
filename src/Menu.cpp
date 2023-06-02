@@ -81,7 +81,7 @@ void Menu::drawSpecificGraphs() {
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    break;
+                    back(); drawMenu();
                 }
             } while (!loadGraph(1, graph));
             break;
@@ -104,7 +104,7 @@ void Menu::drawSpecificGraphs() {
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    break;
+                    back(); drawMenu();
                 }
             } while (!loadGraph(2, graph));
             break;
@@ -234,6 +234,9 @@ void Menu::drawChooseAlgorithm() {
         << "b - Back" << endl;
 
     getOption(option);
+    if (option == "b" || option == "B") {
+        back(); drawMenu();
+    }
 
     if (stoi(option) < 1 || stoi(option) > 4) {
         cout << "Invalid option!" << endl;
