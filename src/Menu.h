@@ -11,19 +11,20 @@ using namespace std;
 
 class Menu {
 public:
-    Menu(vector<Graph*> Graphs);
+    Menu();
 
 private:
     stack<int> menuStack;
     int currentMenu;
     Graph* gh;
-    vector<Graph*> graphs;
+    Graph loadedGraph;
     string group;
     string graph;
 
     enum menus{
         main_menu = 1,
-        specific_graphs = 2
+        specific_graphs = 2,
+        choose_algorithm = 3,
     };
 
     void drawMainMenu();
@@ -39,6 +40,8 @@ private:
     void getOption(string &option);
 
     bool loadGraph(int group, string graph);
+
+    void drawChooseAlgorithm();
 };
 
 

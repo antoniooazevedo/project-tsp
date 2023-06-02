@@ -125,7 +125,6 @@ void Graph::calculateTahTotalDistance() {
         auto w = res[i + 1];
         auto e = v->findEdge(w->getId());
         if (e == nullptr) {
-            cout << "Error: edge not found" << endl;
             totalDistance += haversineCalculator(v->getLatitude(), v->getLongitude(), w->getLatitude(),
                                                  w->getLongitude());
         } else {
@@ -219,7 +218,6 @@ void Graph::nearestNeighbourRouteTsp() {
         if(currVertex == nextVertex){
             nextVertex = findNearestHaversine(currVertex);
             minDistance = haversineCalculator(currVertex->getLatitude(), currVertex->getLongitude(), nextVertex->getLatitude(), nextVertex->getLongitude());
-            cout << "Using haversine distance" << endl;
         }
 
         totalDistance += minDistance;

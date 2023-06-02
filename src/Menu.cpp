@@ -1,7 +1,6 @@
 #include "Menu.h"
 
-Menu::Menu(vector<Graph *> Graphs) {
-    graphs = Graphs;
+Menu::Menu() {
     menuStack.push(main_menu);
     currentMenu = main_menu;
     drawMenu();
@@ -23,12 +22,7 @@ void Menu::back() {
 
 void Menu::getOption(string &option) {
     cout << "\n>> ";
-    cin >> option;
-
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
+    getline(cin, option);
 
     if (option == "q" || option == "Q") {
         exit(0);
@@ -36,12 +30,16 @@ void Menu::getOption(string &option) {
 }
 
 void Menu::drawMenu() {
+    system("clear");
     switch (currentMenu) {
         case main_menu:
             drawMainMenu();
             break;
         case specific_graphs:
             drawSpecificGraphs();
+            break;
+        case choose_algorithm:
+            drawChooseAlgorithm();
             break;
         default:
             break;
@@ -83,7 +81,7 @@ void Menu::drawSpecificGraphs() {
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    break;
+                    back(); drawMenu();
                 }
             } while (!loadGraph(1, graph));
             break;
@@ -106,7 +104,7 @@ void Menu::drawSpecificGraphs() {
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    break;
+                    back(); drawMenu();
                 }
             } while (!loadGraph(2, graph));
             break;
@@ -127,7 +125,7 @@ void Menu::drawSpecificGraphs() {
         default:
             break;
     }
-    back();
+    changeMenu(choose_algorithm);
     drawMenu();
 }
 
@@ -140,21 +138,20 @@ bool Menu::loadGraph(int group, string graph) {
         drawMenu();
     }
 
-
+    string filename;
+    Scraper::type_of_graph type;
     switch (group) {
         case 1:
+            type = Scraper::toy;
             switch (stoi(graph)) {
                 case 1:
-                    gh = graphs[0];
-                    gh->calculateTahTotalDistance();
+                    filename = "../src/data/toy/shipping.csv";
                     break;
                 case 2:
-                    gh = graphs[1];
-                    gh->calculateTahTotalDistance();
+                    filename = "../src/data/toy/stadiums.csv";
                     break;
                 case 3:
-                    gh = graphs[2];
-                    gh->calculateTahTotalDistance();
+                    filename = "../src/data/toy/tourism.csv";
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -162,54 +159,43 @@ bool Menu::loadGraph(int group, string graph) {
             }
             break;
         case 2:
+            type = Scraper::medium;
             switch (stoi(graph)) {
                 case 1:
-                    gh = graphs[3];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_25.csv";
                     break;
                 case 2:
-                    gh = graphs[4];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_50.csv";
                     break;
                 case 3:
-                    gh = graphs[5];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_75.csv";
                     break;
                 case 4:
-                    gh = graphs[6];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_100.csv";
                     break;
                 case 5:
-                    gh = graphs[7];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_200.csv";
                     break;
                 case 6:
-                    gh = graphs[8];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_300.csv";
                     break;
                 case 7:
-                    gh = graphs[9];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_400.csv";
                     break;
                 case 8:
-                    gh = graphs[10];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_500.csv";
                     break;
                 case 9:
-                    gh = graphs[11];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_600.csv";
                     break;
                 case 10:
-                    gh = graphs[12];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_700.csv";
                     break;
                 case 11:
-                    gh = graphs[13];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_800.csv";
                     break;
                 case 12:
-                    gh = graphs[14];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/medium/edges_900.csv";
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -217,25 +203,75 @@ bool Menu::loadGraph(int group, string graph) {
             }
             break;
         case 3:
+            type = Scraper::real;
             switch (stoi(graph)) {
                 case 1:
-                    gh = graphs[15];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/real/graph1/nodes.csv";
                     break;
                 case 2:
-                    gh = graphs[16];
-                    gh->nearestNeighbourRouteTsp();
-
+                    filename = "../src/data/real/graph2/nodes.csv";
                     break;
                 case 3:
-                    gh = graphs[17];
-                    gh->nearestNeighbourRouteTsp();
+                    filename = "../src/data/real/graph3/nodes.csv";
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
                     return false;
             }
     }
+    Scraper::scrape_graph(filename, loadedGraph, type);
+    gh = &loadedGraph;
     return true;
+}
+
+void Menu::drawChooseAlgorithm() {
+    string option;
+    cout << "Choose which algorithm to run:" << endl
+        << "1 - Backtracking" << endl
+        << "2 - Triangular Approximation" << endl
+        << "3 - Nearest Neighbor" << endl
+        << "4 - Christofides' Algorithm" << endl
+        << "b - Back" << endl;
+
+    getOption(option);
+    if (option == "b" || option == "B") {
+        back(); drawMenu();
+    }
+
+    if (stoi(option) < 1 || stoi(option) > 4) {
+        cout << "Invalid option!" << endl;
+        drawMenu();
+    }
+
+    vInt path (gh->getVertexSet().size());
+    switch (stoi(option)) {
+        case 1:
+
+            cout << "Total distance: " << gh->tspBT(path) << endl;
+
+            cout << "Path: ";
+            for (int i : path) {
+                cout << i << " ";
+            }
+            cout << endl;
+
+            break;
+        case 2:
+            gh->calculateTahTotalDistance();
+            break;
+        case 3:
+            gh->nearestNeighbourRouteTsp();
+            break;
+        case 4:
+            break;
+        default:
+            break;
+    }
+    string dummy;
+    cout << "Press anything to continue...\n";
+    getline(cin, dummy);
+
+    back(); back(); // to go back to main menu
+    drawMenu();
 }
 
