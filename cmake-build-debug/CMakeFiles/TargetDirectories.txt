@@ -1,3 +1,0 @@
-C:/Users/tomas/Desktop/uni/DA/project-tsp/cmake-build-debug/CMakeFiles/project_tsp.dir
-C:/Users/tomas/Desktop/uni/DA/project-tsp/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/tomas/Desktop/uni/DA/project-tsp/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,9 +1,9 @@
 #include "Menu.h"
 
-Menu::Menu(Graph &gh) {
+Menu::Menu(vector<Graph *> Graphs) {
+    graphs = Graphs;
     menuStack.push(main_menu);
     currentMenu = main_menu;
-    this->gh = gh;
     drawMenu();
 }
 
@@ -48,15 +48,7 @@ void Menu::drawMenu() {
     }
 }
 
-void Menu::clearVertexSet() {
-    for (auto & it : gh.getVertexSet()) {
-        gh.removeVertex(it.second);
-    }
-}
-
 void Menu::drawMainMenu() {
-    clearVertexSet();
-
     cout << "Choose which graph to load:" << endl;
     cout << "1 - Toy Graphs" << endl;
     cout << "2 - Medium Graphs" << endl;
@@ -153,16 +145,16 @@ bool Menu::loadGraph(int group, string graph) {
         case 1:
             switch (stoi(graph)) {
                 case 1:
-                    Scraper::scrape_graph("../src/data/toy/shipping.csv", gh, Scraper::toy);
-                    gh.calculateTotalDistance();
+                    gh = graphs[0];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 2:
-                    Scraper::scrape_graph("../src/data/toy/stadiums.csv", gh, Scraper::toy);
-                    gh.calculateTotalDistance();
+                    gh = graphs[1];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 3:
-                    Scraper::scrape_graph("../src/data/toy/tourism.csv", gh, Scraper::toy);
-                    gh.calculateTotalDistance();
+                    gh = graphs[2];
+                    gh->calculateTahTotalDistance();
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -172,63 +164,52 @@ bool Menu::loadGraph(int group, string graph) {
         case 2:
             switch (stoi(graph)) {
                 case 1:
-                    Scraper::scrape_graph("../src/data/medium/edges_25.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
+                    gh = graphs[3];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 2:
-                    Scraper::scrape_graph("../src/data/medium/edges_50.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[4];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 3:
-                    Scraper::scrape_graph("../src/data/medium/edges_75.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[5];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 4:
-                    Scraper::scrape_graph("../src/data/medium/edges_100.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[6];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 5:
-                    Scraper::scrape_graph("../src/data/medium/edges_200.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[7];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 6:
-                    Scraper::scrape_graph("../src/data/medium/edges_300.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[8];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 7:
-                    Scraper::scrape_graph("../src/data/medium/edges_400.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[9];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 8:
-                    Scraper::scrape_graph("../src/data/medium/edges_500.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[10];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 9:
-                    Scraper::scrape_graph("../src/data/medium/edges_600.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[11];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 10:
-                    Scraper::scrape_graph("../src/data/medium/edges_700.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[12];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 11:
-                    Scraper::scrape_graph("../src/data/medium/edges_800.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[13];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 12:
-                    Scraper::scrape_graph("../src/data/medium/edges_900.csv", gh, Scraper::medium);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[14];
+                    gh->calculateTahTotalDistance();
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -238,25 +219,22 @@ bool Menu::loadGraph(int group, string graph) {
         case 3:
             switch (stoi(graph)) {
                 case 1:
-                    Scraper::scrape_graph("../src/data/real/graph1/nodes.csv", gh, Scraper::real);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[15];
+                    gh->calculateTahTotalDistance();
                     break;
                 case 2:
-                    Scraper::scrape_graph("../src/data/real/graph2/nodes.csv", gh, Scraper::real);
-                    gh.calculateTotalDistance();
+                    gh = graphs[16];
+                    gh->calculateTahTotalDistance();
 
                     break;
                 case 3:
-                    Scraper::scrape_graph("../src/data/real/graph3/nodes.csv", gh, Scraper::real);
-                    gh.calculateTotalDistance();
-
+                    gh = graphs[17];
+                    gh->calculateTahTotalDistance();
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
                     return false;
             }
-            break;
     }
     return true;
 }

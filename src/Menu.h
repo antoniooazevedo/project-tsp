@@ -11,12 +11,13 @@ using namespace std;
 
 class Menu {
 public:
-    Menu(Graph &gh);
+    Menu(vector<Graph*> Graphs);
 
 private:
     stack<int> menuStack;
     int currentMenu;
-    Graph gh;
+    Graph* gh;
+    vector<Graph*> graphs;
     string group;
     string graph;
 
@@ -38,8 +39,6 @@ private:
     void getOption(string &option);
 
     bool loadGraph(int group, string graph);
-
-    void clearVertexSet();
 };
 
 

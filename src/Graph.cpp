@@ -1,7 +1,5 @@
-// By: Gonçalo Leão
 
 #include "Graph.h"
-#include <iomanip> // TODO: remove this!
 
 
 std::unordered_map<int, Vertex *> Graph::getVertexSet() const {
@@ -108,7 +106,7 @@ void Graph::dfsMst(Vertex *v, vector<Vertex *> &res) {
     }
 }
 
-void Graph::calculateTotalDistance() {
+void Graph::calculateTahTotalDistance() {
     double totalDistance = 0;
     auto s = this->findVertex(0);
     vector<Vertex *> res;
@@ -127,6 +125,7 @@ void Graph::calculateTotalDistance() {
         auto w = res[i + 1];
         auto e = v->findEdge(w->getId());
         if (e == nullptr) {
+            cout << "Error: edge not found" << endl;
             totalDistance += haversineCalculator(v->getLatitude(), v->getLongitude(), w->getLatitude(),
                                                  w->getLongitude());
         } else {

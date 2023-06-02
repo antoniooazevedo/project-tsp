@@ -135,7 +135,7 @@ public:
     /**
      * calculates the total distance of the route
      */
-    void calculateTotalDistance();
+    void calculateTahTotalDistance();
 
     /**
      * calculate the distance between two points using the haversine formula
@@ -157,7 +157,7 @@ public:
 
     /**
      * Recursive backtracking algorithm that gives the optimal solution to the traveling salesman problem
-     * @param path vector that keeps the vertexs in the order they were visited
+     * @param path vector that keeps the vertexes in the order they were visited
      * @param currVertexId id of the currently visited vertex
      * @param currSum distance travelled through the vertexes that were visited
      * @param bestSum least distance travelled through all the vertexes until now
@@ -165,6 +165,8 @@ public:
      * @return best distance travelled from all the sets that were already experimented
      */
     double tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step);
+
+    void nearestNeighbourRouteTsp();
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */
