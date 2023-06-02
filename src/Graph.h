@@ -17,6 +17,7 @@
 #include "VertexEdge.h"
 #include "MutablePriorityQueue.h"
 #include "Graph.h"
+#include "chrono"
 
 
 using namespace std;
@@ -130,12 +131,12 @@ public:
      * @param v - vertex to start the dfs
      * @param res - vector with the vertexes in the dfs order
      */
-    void dfsMst(Vertex *v, vector<Vertex *> &res);
+    void dfsMst(Vertex *v, vInt &path, int &count);
 
     /**
      * calculates the total distance of the route
      */
-    void calculateTahTotalDistance();
+    double calculateTahTotalDistance(vInt &path);
 
     /**
      * calculate the distance between two points using the haversine formula
@@ -171,7 +172,7 @@ public:
      * Calculates the nearest neighbour route for the travelling salesman problem
      * complexity: O(V^2)
      */
-    void nearestNeighbourRouteTsp();
+    double nearestNeighbourRouteTsp(vInt &path);
 
     Vertex * findNearestHaversine(Vertex *currentV);
 

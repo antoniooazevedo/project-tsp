@@ -1,3 +1,4 @@
+#include <chrono>
 #include "Menu.h"
 
 Menu::Menu() {
@@ -47,6 +48,8 @@ void Menu::drawMenu() {
 }
 
 void Menu::drawMainMenu() {
+    loadedGraph = Graph();
+
     cout << "Choose which graph to load:" << endl;
     cout << "1 - Toy Graphs" << endl;
     cout << "2 - Medium Graphs" << endl;
@@ -81,7 +84,8 @@ void Menu::drawSpecificGraphs() {
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    back(); drawMenu();
+                    back();
+                    drawMenu();
                 }
             } while (!loadGraph(1, graph));
             break;
@@ -104,7 +108,8 @@ void Menu::drawSpecificGraphs() {
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    back(); drawMenu();
+                    back();
+                    drawMenu();
                 }
             } while (!loadGraph(2, graph));
             break;
@@ -218,6 +223,7 @@ bool Menu::loadGraph(int group, string graph) {
                     cout << "Invalid option. Try Again\n";
                     return false;
             }
+            break;
     }
     Scraper::scrape_graph(filename, loadedGraph, type);
     gh = &loadedGraph;
@@ -227,15 +233,16 @@ bool Menu::loadGraph(int group, string graph) {
 void Menu::drawChooseAlgorithm() {
     string option;
     cout << "Choose which algorithm to run:" << endl
-        << "1 - Backtracking" << endl
-        << "2 - Triangular Approximation" << endl
-        << "3 - Nearest Neighbor" << endl
-        << "4 - Christofides' Algorithm" << endl
-        << "b - Back" << endl;
+         << "1 - Backtracking" << endl
+         << "2 - Triangular Approximation" << endl
+         << "3 - Nearest Neighbor" << endl
+         << "4 - Christofides' Algorithm" << endl
+         << "b - Back" << endl;
 
     getOption(option);
     if (option == "b" || option == "B") {
-        back(); drawMenu();
+        back();
+        drawMenu();
     }
 
     if (stoi(option) < 1 || stoi(option) > 4) {
@@ -243,24 +250,37 @@ void Menu::drawChooseAlgorithm() {
         drawMenu();
     }
 
-    vInt path (gh->getVertexSet().size());
+    vInt path(gh->getVertexSet().size());
     switch (stoi(option)) {
         case 1:
-
             cout << "Total distance: " << gh->tspBT(path) << endl;
 
             cout << "Path: ";
-            for (int i : path) {
+            for (int i: path) {
                 cout << i << " ";
             }
             cout << endl;
 
             break;
         case 2:
-            gh->calculateTahTotalDistance();
+            cout << "Total distance: " << gh->calculateTahTotalDistance(path) << endl;
+
+            /*cout << "Path: ";
+            for (int i: path) {
+                cout << i << " ";
+            }
+            cout << endl;*/
+
             break;
         case 3:
-            gh->nearestNeighbourRouteTsp();
+            cout << "Total distance: " << gh->nearestNeighbourRouteTsp(path) << endl;
+
+            cout << "Path: ";
+            for (int i: path) {
+                cout << i << " ";
+            }
+            cout << endl;
+
             break;
         case 4:
             break;
@@ -271,7 +291,8 @@ void Menu::drawChooseAlgorithm() {
     cout << "Press anything to continue...\n";
     getline(cin, dummy);
 
-    back(); back(); // to go back to main menu
+    back();
+    back(); // to go back to main menu
     drawMenu();
 }
 

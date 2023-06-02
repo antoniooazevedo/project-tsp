@@ -95,21 +95,21 @@ void Graph::mstBuild() {
     }
 }
 
-void Graph::dfsMst(Vertex *v, vector<Vertex *> &res) {
+void Graph::dfsMst(Vertex *v, vInt &path, int &count) {
     v->setVisited(true);
-    res.push_back(v);
+    path[count++] = v->getId();
     for (auto &e: v->getAdj()) {
         auto w = e->getDest();
         if (!w->isVisited() && e == w->getPath()) {
-            dfsMst(w, res);
+            dfsMst(w, path, count);
         }
     }
 }
 
-void Graph::calculateTahTotalDistance() {
+double Graph::calculateTahTotalDistance(vInt &path) {
     double totalDistance = 0;
     auto s = this->findVertex(0);
-    vector<Vertex *> res;
+    int count = 0;
 
     mstBuild();
 
@@ -117,12 +117,13 @@ void Graph::calculateTahTotalDistance() {
         v.second->setVisited(false);
     }
 
-    dfsMst(s, res);
-    res.push_back(s);
+    dfsMst(s, path, count);
 
-    for (auto i = 0; i < res.size() - 1; i++) {
-        auto v = res[i];
-        auto w = res[i + 1];
+    path.push_back(0);
+
+    for (auto i = 0; i < path.size() - 1; i++) {
+        auto v = findVertex(path[i]);
+        auto w = findVertex(path[i + 1]);
         auto e = v->findEdge(w->getId());
         if (e == nullptr) {
             totalDistance += haversineCalculator(v->getLatitude(), v->getLongitude(), w->getLatitude(),
@@ -132,7 +133,7 @@ void Graph::calculateTahTotalDistance() {
         }
     }
 
-    cout << "Total distance: " << totalDistance << endl;
+    return totalDistance;
 }
 
 double convert_to_radians(double coordinate) {
@@ -164,6 +165,7 @@ double Graph::tspBT(vInt &path) {
     path[0] = 0;
 
     return tspBacktracking(path, 0, 0, DBL_MAX, 1);
+
 }
 
 double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step) {
@@ -195,12 +197,13 @@ double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, doub
     return bestSum;
 }
 
-void Graph::nearestNeighbourRouteTsp() {
+double Graph::nearestNeighbourRouteTsp(vInt &path) {
     for (auto v : vertexSet){
         v.second->setVisited(false);
 }
 
     Vertex *currVertex = findVertex(0);
+    path[0] = 0;
     Vertex *nextVertex;
     currVertex->setVisited(true);
     double totalDistance = 0;
@@ -221,14 +224,16 @@ void Graph::nearestNeighbourRouteTsp() {
         }
 
         totalDistance += minDistance;
+        path[numVisited] = nextVertex->getId();
         numVisited++;
         nextVertex->setVisited(true);
         currVertex = nextVertex;
     }
 
     totalDistance += currVertex->findEdge(0) == nullptr ? haversineCalculator(currVertex->getLatitude(), currVertex->getLongitude(), findVertex(0)->getLatitude(), findVertex(0)->getLongitude()) : currVertex->findEdge(0)->getDistance();
+    path.push_back(0);
 
-    cout << "Total distance: " << totalDistance << endl;
+    return totalDistance;
 }
 
 Vertex* Graph::findNearestHaversine(Vertex* currentV){
