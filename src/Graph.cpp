@@ -195,3 +195,57 @@ double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, doub
 
     return bestSum;
 }
+
+void Graph::nearestNeighbourRouteTsp() {
+    for (auto v : vertexSet){
+        v.second->setVisited(false);
+}
+
+    Vertex *currVertex = findVertex(0);
+    Vertex *nextVertex;
+    currVertex->setVisited(true);
+    double totalDistance = 0;
+    int numVisited = 1;
+
+    while (numVisited < vertexSet.size()){
+        auto minDistance = DBL_MAX;
+        for (auto e : currVertex->getAdj()){
+            if (e->getDistance() < minDistance && !e->getDest()->getVisited()){
+                minDistance = e->getDistance();
+                nextVertex = e->getDest();
+            }
+        }
+
+        if(currVertex == nextVertex){
+            nextVertex = findNearestHaversine(currVertex);
+            minDistance = haversineCalculator(currVertex->getLatitude(), currVertex->getLongitude(), nextVertex->getLatitude(), nextVertex->getLongitude());
+            cout << "Using haversine distance" << endl;
+        }
+
+        totalDistance += minDistance;
+        numVisited++;
+        nextVertex->setVisited(true);
+        currVertex = nextVertex;
+    }
+
+    totalDistance += currVertex->findEdge(0) == nullptr ? haversineCalculator(currVertex->getLatitude(), currVertex->getLongitude(), findVertex(0)->getLatitude(), findVertex(0)->getLongitude()) : currVertex->findEdge(0)->getDistance();
+
+    cout << "Total distance: " << totalDistance << endl;
+}
+
+Vertex* Graph::findNearestHaversine(Vertex* currentV){
+    auto minDistance = DBL_MAX;
+    Vertex* nearestV;
+    for (auto v : vertexSet){
+        if (currentV->findEdge(v.second->getId()) || v.second->getVisited()){
+            continue;
+        }
+        double distance = haversineCalculator(currentV->getLatitude(), currentV->getLongitude(), v.second->getLatitude(), v.second->getLongitude());
+        if (distance < minDistance){
+            minDistance = distance;
+            nearestV = v.second;
+        }
+    }
+
+    return nearestV;
+}

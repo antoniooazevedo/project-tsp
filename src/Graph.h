@@ -166,7 +166,15 @@ public:
      */
     double tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step);
 
+
+    /**
+     * Calculates the nearest neighbour route for the travelling salesman problem
+     * complexity: O(V^2)
+     */
     void nearestNeighbourRouteTsp();
+
+    Vertex * findNearestHaversine(Vertex *currentV);
+
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */

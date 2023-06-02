@@ -165,51 +165,51 @@ bool Menu::loadGraph(int group, string graph) {
             switch (stoi(graph)) {
                 case 1:
                     gh = graphs[3];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 2:
                     gh = graphs[4];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 3:
                     gh = graphs[5];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 4:
                     gh = graphs[6];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 5:
                     gh = graphs[7];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 6:
                     gh = graphs[8];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 7:
                     gh = graphs[9];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 8:
                     gh = graphs[10];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 9:
                     gh = graphs[11];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 10:
                     gh = graphs[12];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 11:
                     gh = graphs[13];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 12:
                     gh = graphs[14];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -220,16 +220,16 @@ bool Menu::loadGraph(int group, string graph) {
             switch (stoi(graph)) {
                 case 1:
                     gh = graphs[15];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 case 2:
                     gh = graphs[16];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
 
                     break;
                 case 3:
                     gh = graphs[17];
-                    gh->calculateTahTotalDistance();
+                    gh->nearestNeighbourRouteTsp();
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
