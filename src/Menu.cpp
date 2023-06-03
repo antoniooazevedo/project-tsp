@@ -279,6 +279,7 @@ void Menu::drawChooseAlgorithm() {
         case 3:
             cout << "Total distance: " << gh->nearestNeighbourRouteTsp(path) << endl;
 
+<<<<<<< HEAD
             /*
             cout << "Path: ";
             for (int i: path) {
@@ -286,6 +287,13 @@ void Menu::drawChooseAlgorithm() {
             }
             cout << endl;
                 */
+=======
+            /*cout << "Path: ";
+            for (int i: path) {
+                cout << i << " ";
+            }
+            cout << endl;*/
+>>>>>>> c82e80a47c40027813d8f45f4a69757d2ca62466
 
             break;
         case 4:

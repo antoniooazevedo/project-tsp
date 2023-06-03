@@ -198,9 +198,9 @@ double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, doub
 }
 
 double Graph::nearestNeighbourRouteTsp(vInt &path) {
-    for (auto v : vertexSet){
+    for (auto v: vertexSet) {
         v.second->setVisited(false);
-}
+    }
 
     Vertex *currVertex = findVertex(0);
     path[0] = 0;
@@ -209,18 +209,18 @@ double Graph::nearestNeighbourRouteTsp(vInt &path) {
     double totalDistance = 0;
     int numVisited = 1;
 
-    while (numVisited < vertexSet.size()){
+    while (numVisited < vertexSet.size()) {
         auto minDistance = DBL_MAX;
-        for (auto e : currVertex->getAdj()){
-            if (e->getDistance() < minDistance && !e->getDest()->getVisited()){
+        for (auto e: currVertex->getAdj()) {
+            if (e->getDistance() < minDistance && !e->getDest()->getVisited()) {
                 minDistance = e->getDistance();
                 nextVertex = e->getDest();
             }
         }
 
-        if(currVertex == nextVertex){
+        if (currVertex == nextVertex) {
             nextVertex = findNearestHaversine(currVertex);
-            minDistance = haversineCalculator(currVertex->getLatitude(), currVertex->getLongitude(), nextVertex->getLatitude(), nextVertex->getLongitude());
+            minDistance = haversineCalculator(currVertex->getLatitude(), currVertex->getLongitude(),nextVertex->getLatitude(), nextVertex->getLongitude());
         }
 
         totalDistance += minDistance;
@@ -230,21 +230,21 @@ double Graph::nearestNeighbourRouteTsp(vInt &path) {
         currVertex = nextVertex;
     }
 
-    totalDistance += currVertex->findEdge(0) == nullptr ? haversineCalculator(currVertex->getLatitude(), currVertex->getLongitude(), findVertex(0)->getLatitude(), findVertex(0)->getLongitude()) : currVertex->findEdge(0)->getDistance();
+    totalDistance += currVertex->findEdge(0) == nullptr ? haversineCalculator(currVertex->getLatitude(),currVertex->getLongitude(),findVertex(0)->getLatitude(),findVertex(0)->getLongitude()): currVertex->findEdge(0)->getDistance();
     path.push_back(0);
 
     return totalDistance;
 }
 
-Vertex* Graph::findNearestHaversine(Vertex* currentV){
+Vertex *Graph::findNearestHaversine(Vertex *currentV) {
     auto minDistance = DBL_MAX;
-    Vertex* nearestV;
-    for (auto v : vertexSet){
-        if (currentV->findEdge(v.second->getId()) || v.second->getVisited()){
+    Vertex *nearestV;
+    for (auto v: vertexSet) {
+        if (currentV->findEdge(v.second->getId()) || v.second->getVisited()) {
             continue;
         }
-        double distance = haversineCalculator(currentV->getLatitude(), currentV->getLongitude(), v.second->getLatitude(), v.second->getLongitude());
-        if (distance < minDistance){
+        double distance = haversineCalculator(currentV->getLatitude(), currentV->getLongitude(),v.second->getLatitude(), v.second->getLongitude());
+        if (distance < minDistance) {
             minDistance = distance;
             nearestV = v.second;
         }
@@ -252,3 +252,52 @@ Vertex* Graph::findNearestHaversine(Vertex* currentV){
 
     return nearestV;
 }
+
+double Graph::twoOpt(vInt &path, double bestDistance) {
+    double newDistance = bestDistance;
+    auto size = path.size();
+    bool improved = true;
+
+    while (improved) {
+        improved = false;
+        for (int i = 1; i < size - 2; i++) {
+            for (int k = i + 1; k < size - 1; k++) {
+                vInt newPath = twoOptSwap(path, i, k);
+                newDistance = calculateTwoOptDistance(path, i, k, bestDistance);
+                if (newDistance < bestDistance) {
+                    bestDistance = newDistance;
+                    path = newPath;
+                    improved = true;
+                }
+            }
+        }
+    }
+    return bestDistance;
+}
+
+double Graph::calculateTwoOptDistance(vInt path, int i, int k, double totalDistance) {
+    double lengthDelta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
+                         calculateTwoVerticesDist(findVertex(path[k]), findVertex(path[k + 1])) +
+                         calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[k])) +
+                         calculateTwoVerticesDist(findVertex(path[i + 1]), findVertex(path[k + 1]));
+    return totalDistance + lengthDelta;
+}
+
+double Graph::calculateTwoVerticesDist(Vertex *v1, Vertex *v2) {
+    return v1->findEdge(v2->getId()) == nullptr ? haversineCalculator(v1->getLatitude(), v1->getLongitude(),v2->getLatitude(), v2->getLongitude()): v1->findEdge(v2->getId())->getDistance();
+}
+
+vInt Graph::twoOptSwap(vInt path, int i, int k) {
+    vInt newPath;
+    for (int j = 0; j <= i; j++) {
+        newPath.push_back(path[j]);
+    }
+    for (int j = k; j > i; j--) {
+        newPath.push_back(path[j]);
+    }
+    for (int j = k + 1; j < path.size(); j++) {
+        newPath.push_back(path[j]);
+    }
+    return newPath;
+}
+
