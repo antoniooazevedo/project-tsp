@@ -253,9 +253,11 @@ void Menu::drawChooseAlgorithm() {
 
     vInt path(gh->getVertexSet().size());
     auto start = chrono::high_resolution_clock::now();
+    double distance;
     switch (stoi(option)) {
         case 1:
-            cout << "Total distance: " << gh->tspBT(path) << endl;
+            distance = gh->tspBT(path);
+            cout << "Total distance: " << distance << endl;
 
             /*
             cout << "Path: ";
@@ -267,33 +269,29 @@ void Menu::drawChooseAlgorithm() {
 
             break;
         case 2:
-            cout << "Total distance: " << gh->calculateTahTotalDistance(path) << endl;
+            distance = gh->calculateTahTotalDistance(path);
+            cout << "Total distance: " << distance << endl;
 
-            /*cout << "Path: ";
+            /*
+             * cout << "Path: ";
             for (int i: path) {
                 cout << i << " ";
             }
-            cout << endl;*/
+            cout << endl;
+             */
 
             break;
         case 3:
-            cout << "Total distance: " << gh->nearestNeighbourRouteTsp(path) << endl;
+            distance = gh->nearestNeighbourRouteTsp(path);
+            cout << "Total distance: " << distance << endl;
 
-<<<<<<< HEAD
             /*
             cout << "Path: ";
             for (int i: path) {
                 cout << i << " ";
             }
             cout << endl;
-                */
-=======
-            /*cout << "Path: ";
-            for (int i: path) {
-                cout << i << " ";
-            }
-            cout << endl;*/
->>>>>>> c82e80a47c40027813d8f45f4a69757d2ca62466
+            */
 
             break;
         case 4:
@@ -303,16 +301,23 @@ void Menu::drawChooseAlgorithm() {
     }
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;
-    cout << "Elapsed time: " << elapsed.count() << " s\n";
 
     string yn;
-    cout << "Would you like to optimize the path? (y/n)" << endl << "WARNING: This may take a while!" << endl << ">> " ;
+    cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!" << endl << ">> " ;
     getline(cin, yn);
 
     if (yn == "y" || yn == "Y"){
-
+        system("clear");
+        cout << "Optimizing path..." << endl;
+        start = chrono::high_resolution_clock::now();
+        double twoOptDistance = gh->twoOpt(path, distance);
+        cout << "Total improved distance: " << gh->twoOpt(path, distance) << endl;
+        cout << "Improvement: " << (distance - twoOptDistance) / distance * 100 << "%" << endl;
+        finish = chrono::high_resolution_clock::now();
+        elapsed += finish - start;
     }
 
+    cout << "Elapsed time: " << elapsed.count() << " s\n";
     string dummy;
     cout << "Press anything to continue...\n";
     getline(cin, dummy);
