@@ -279,11 +279,13 @@ void Menu::drawChooseAlgorithm() {
         case 3:
             cout << "Total distance: " << gh->nearestNeighbourRouteTsp(path) << endl;
 
+            /*
             cout << "Path: ";
             for (int i: path) {
                 cout << i << " ";
             }
             cout << endl;
+                */
 
             break;
         case 4:
@@ -294,6 +296,14 @@ void Menu::drawChooseAlgorithm() {
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;
     cout << "Elapsed time: " << elapsed.count() << " s\n";
+
+    string yn;
+    cout << "Would you like to optimize the path? (y/n)" << endl << "WARNING: This may take a while!" << endl << ">> " ;
+    getline(cin, yn);
+
+    if (yn == "y" || yn == "Y"){
+
+    }
 
     string dummy;
     cout << "Press anything to continue...\n";
