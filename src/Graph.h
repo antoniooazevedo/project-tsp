@@ -176,9 +176,18 @@ public:
 
     Vertex * findNearestHaversine(Vertex *currentV);
 
+    vInt twoOptSwap(vInt path, int i, int k);
+
+    double calculateTwoOptDistance(vInt newPath, int i, int k, double bestDistance);
+
+    double twoOpt(vInt &path, double bestDistance);
+    double calculateTwoVerticesDist(Vertex *v1, Vertex *v2);
+
+
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */
+
 
 };
 
