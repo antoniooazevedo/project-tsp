@@ -135,6 +135,7 @@ public:
 
     /**
      * calculates the total distance of the route
+     * complexity: O(V+E)
      */
     double calculateTahTotalDistance(vInt &path);
 
