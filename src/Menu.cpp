@@ -73,6 +73,7 @@ void Menu::drawMainMenu() {
 }
 
 void Menu::drawSpecificGraphs() {
+    loadedGraph = Graph();
     switch (stoi(group)) {
         case 1:
             cout << "Choose which graph to load:" << endl;
@@ -251,15 +252,18 @@ void Menu::drawChooseAlgorithm() {
     }
 
     vInt path(gh->getVertexSet().size());
+    auto start = chrono::high_resolution_clock::now();
     switch (stoi(option)) {
         case 1:
             cout << "Total distance: " << gh->tspBT(path) << endl;
 
-            /*cout << "Path: ";
+            /*
+            cout << "Path: ";
             for (int i: path) {
                 cout << i << " ";
             }
-            cout << endl;*/
+            cout << endl;
+             */
 
             break;
         case 2:
@@ -287,6 +291,10 @@ void Menu::drawChooseAlgorithm() {
         default:
             break;
     }
+    auto finish = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed = finish - start;
+    cout << "Elapsed time: " << elapsed.count() << " s\n";
+
     string dummy;
     cout << "Press anything to continue...\n";
     getline(cin, dummy);
