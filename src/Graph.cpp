@@ -270,7 +270,9 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
                     improved = true;
                 }
             }
+
         }
+
     }
     return bestDistance;
 }
