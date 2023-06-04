@@ -324,7 +324,8 @@ void Menu::drawChooseAlgorithm() {
             break;
 
         case 4:
-            gh->christofides(path);
+            distance = gh->christofides(path);
+            cout << "Total distance: " << distance << endl;
             break;
 
         default:

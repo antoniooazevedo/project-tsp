@@ -445,7 +445,7 @@ vInt Graph::removeRepeatingVertexes(vector<Vertex *> path) {
 double Graph::calculateChrisDistance(vector<Vertex *> eulerianTour) {
     unordered_set<Vertex *> visited;
     double dist = 0;
-    int p1 = 0, p2 = 1, count = 0;
+    int p1 = 0, p2 = 1;
 
     visited.insert(eulerianTour[0]);
 
@@ -453,7 +453,6 @@ double Graph::calculateChrisDistance(vector<Vertex *> eulerianTour) {
         if (visited.find(eulerianTour[p2]) == visited.end() || p2 == eulerianTour.size() - 1) {
             visited.insert(eulerianTour[p2]);
             dist += eulerianTour[p1]->findEdge(eulerianTour[p2]->getId())->getDistance();
-            cout << ++count << "- " << eulerianTour[p1]->getId() << " --> " << eulerianTour[p2]->getId() << endl;
             p1 = p2; p2++;
         }
         else
