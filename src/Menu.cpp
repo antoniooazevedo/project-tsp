@@ -264,15 +264,17 @@ bool Menu::loadGraph(int group, string graph) {
 
 void Menu::drawChooseAlgorithm() {
     string option;
+    int optionNumber = 1;
+    bool offset = false;
 
     cout << "Choose which algorithm to run:" << endl;
     if (group == to_string(1)) {
-        cout << "1 - Backtracking" << endl;
+        cout << optionNumber++ << " - Backtracking" << endl;
     }
-    cout << "2 - Triangular Approximation" << endl
-         << "3 - Nearest Neighbor" << endl;
+    cout << optionNumber++ << " - Triangular Approximation" << endl;
+    cout << optionNumber++ << " - Nearest Neighbor" << endl;
     if (complete) {
-        cout << "4 - Christofides' Algorithm" << endl;
+        cout << optionNumber++ << " - Christofides' Algorithm" << endl;
     }
     cout << "b - Back" << endl;
 
@@ -290,24 +292,19 @@ void Menu::drawChooseAlgorithm() {
         }
     }
 
-    if (group == to_string(1) && complete  && (stoi(option) < 1 || stoi(option) > 4)) {
+    if (stoi(option) < 1 || stoi(option) > optionNumber - 1) {
         cout << "Invalid option!" << endl;
         drawMenu();
-    } else if (group != to_string(1) && complete && (stoi(option) < 2 || stoi(option) > 4)) {
-        cout << "Invalid option!" << endl;
-        drawMenu();
-    } else if (group == to_string(1) && !complete && (stoi(option) < 1 || stoi(option) > 3)) {
-        cout << "Invalid option!" << endl;
-        drawMenu();
-    } else if (group != to_string(1) && !complete && (stoi(option) < 2 || stoi(option) > 3)) {
-        cout << "Invalid option!" << endl;
-        drawMenu();
+    }
+
+    if (group != to_string(1)) {
+        offset = true;
     }
 
     vInt path(gh->getVertexSet().size());
     auto start = chrono::high_resolution_clock::now();
     double distance;
-    switch (stoi(option)) {
+    switch (offset ? stoi(option) + 1: stoi(option)) {
         case 1:
             distance = gh->tspBT(path);
             cout << "Total distance: " << distance << endl;
