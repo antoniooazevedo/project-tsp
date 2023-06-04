@@ -148,11 +148,24 @@ public:
      */
     Edge * findEdge(int dest);
 
+    /**
+     * Returns indegree attribute
+     * @return returns the number of outgoing edges
+     */
+    int getIndegree() const;
+
+    /**
+     * Sets indegree attribute
+     * @param indegree number of outgoing edges
+     */
+    void setIndegree(int indegree);
+
 protected:
     int id; /**< The id of the vertex */
     vector<Edge *> adj; /**< The adjacency vector of the vertex */
     Edge *path = nullptr; /**< Edge path of the vertex */
     double latitude, longitude; /**< Latitude and longitude of the vertex */
+    int indegree;
 
 protected:
     /**< Latitude and longitude of the vertex */
@@ -202,6 +215,18 @@ public:
     double getDistance() const;
 
     /**
+     * Gets the selected atribute of the edge
+     * @return true if the edge is selected for the eulerian tour, false otherwise
+     */
+    bool getSelected() const;
+
+    /**
+     * Gets the isDouble attribute of the edge
+     * @return true if this edge represents two edges between the two vertexes, false otherwise
+     */
+    bool getIsDouble() const;
+
+    /**
      * Gets the reverse edge of the edge;
      * @return the reverse edge of the edge;
      */
@@ -213,12 +238,26 @@ public:
      */
     void setReverse(Edge *reverse);
 
+    /**
+     * Sets the selected attribute of the edge
+     * @param selected whether the vertex is selected for the eulerian tour
+     */
+    void setSelected(bool selected);
+
+    /**
+     * Sets the isDouble attribute of the edge
+     * @param isDouble whether this edge represents two edges between the two vertexes
+     */
+    void setIsDouble(bool isDouble);
+
 
 protected:
     Vertex * dest; /**< Destination vertex of the edge */
     Vertex *orig; /**< Origin vertex of the edge */
     Edge *reverse = nullptr; /**< Reverse edge of the edge */
     double distance; /**< Distance of the edge */
+    bool selected; /**< Edge selected to find eulerian path */
+    bool isDouble; /**< True if this edge represents two edges between the two vertexes */
 };
 
 #endif /* DA_TP_CLASSES_VERTEX_EDGE */
