@@ -18,7 +18,7 @@
 #include "MutablePriorityQueue.h"
 #include "Graph.h"
 #include "chrono"
-
+#include <unordered_set>
 
 using namespace std;
 
@@ -135,6 +135,7 @@ public:
 
     /**
      * calculates the total distance of the route
+     * complexity: O(V+E)
      */
     double calculateTahTotalDistance(vInt &path);
 
@@ -184,6 +185,20 @@ public:
     double calculateTwoVerticesDist(Vertex *v1, Vertex *v2);
 
 
+
+    double christofides();
+
+    vector<Vertex *> findOddDegreeVertexes();
+
+    void greedyPerfectMatching(vector<Vertex *> &oddDegreeVertexes);
+
+    vector<Vertex *> buildEulerianTour();
+
+    vector<Vertex *> getOneEulerianPath(Vertex *orig);
+
+    vector<Vertex *> mergePath(vector<Vertex *> &eulerianTour, vector<Vertex *> path);
+
+    double calculateChrisDistance(vector<Vertex *> eulerianTour);
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */

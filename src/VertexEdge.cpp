@@ -136,6 +136,14 @@ Edge *Vertex::findEdge(int dest) {
     return nullptr;
 }
 
+int Vertex::getIndegree() const {
+    return this->indegree;
+}
+
+void Vertex::setIndegree(int indegree) {
+    this->indegree = indegree;
+}
+
 /********************** Edge  ****************************/
 
 
@@ -160,5 +168,21 @@ Edge *Edge::getReverse() const {
 
 void Edge::setReverse(Edge *reverse) {
     this->reverse = reverse;
+}
+
+bool Edge::getSelected() const {
+    return this->selected;
+}
+
+void Edge::setSelected(bool selected) {
+    this->selected = selected;
+}
+
+void Edge::setIsDouble(bool isDouble) {
+    this->isDouble = isDouble;
+}
+
+bool Edge::getIsDouble() const {
+    return this->isDouble;
 }
 
