@@ -157,7 +157,6 @@ bool Menu::loadGraph(int group, string graph) {
     }
 
     string filename;
-    Scraper::type_of_graph type;
     switch (group) {
         case 1:
             type = Scraper::toy;
@@ -238,7 +237,7 @@ bool Menu::loadGraph(int group, string graph) {
             }
             break;
         case 4:
-            type = Scraper::toy;
+            type = Scraper::medium;
             switch (stoi(graph)) {
                 case 1:
                     filename = "../src/example/graph1.csv";
@@ -282,37 +281,21 @@ void Menu::drawChooseAlgorithm() {
             distance = gh->tspBT(path);
             cout << "Total distance: " << distance << endl;
 
-
-            cout << "Path: ";
-            for (int i: path) {
-                cout << i << " ";
-            }
-            cout << endl;
-
             break;
         case 2:
             distance = gh->calculateTahTotalDistance(path);
             cout << "Total distance: " << distance << endl;
-
-            cout << "Path: ";
-            for (int i: path) {
-                cout << i << " ";
-            }
-            cout << endl;
 
             break;
         case 3:
             distance = gh->nearestNeighbourRouteTsp(path);
             cout << "Total distance: " << distance << endl;
 
-            cout << "Path: ";
-            for (int i: path) {
-                cout << i << " ";
-            }
-            cout << endl;
-
             break;
         case 4:
+            distance = gh->christofides();
+            cout << "Total distance: " << distance << endl;
+
             break;
         default:
             break;
@@ -321,20 +304,21 @@ void Menu::drawChooseAlgorithm() {
     chrono::duration<double> elapsed = finish - start;
 
     string yn;
+    if (type != Scraper::toy){
+        cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!"
+             << endl << ">> ";
+        getline(cin, yn);
 
-    cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!"
-         << endl << ">> ";
-    getline(cin, yn);
-
-    if (yn == "y" || yn == "Y") {
-        system("clear");
-        cout << "Optimizing path..." << endl;
-        start = chrono::high_resolution_clock::now();
-        double twoOptDistance = gh->twoOpt(path, distance);
-        cout << "Total improved distance: " << twoOptDistance << "m" << endl;
-        cout << "Improvement: " << (distance - twoOptDistance) / distance * 100 << "%" << endl;
-        finish = chrono::high_resolution_clock::now();
-        elapsed += finish - start;
+        if (yn == "y" || yn == "Y") {
+            system("clear");
+            cout << "Optimizing path..." << endl;
+            start = chrono::high_resolution_clock::now();
+            double twoOptDistance = gh->twoOpt(path, distance);
+            cout << "Total improved distance: " << twoOptDistance << "m" << endl;
+            cout << "Improvement: " << (distance - twoOptDistance) / distance * 100 << "%" << endl;
+            finish = chrono::high_resolution_clock::now();
+            elapsed += finish - start;
+        }
     }
 
     cout << "Elapsed time: " << elapsed.count() << " s\n";

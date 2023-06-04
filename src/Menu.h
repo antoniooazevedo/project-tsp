@@ -18,6 +18,7 @@ private:
     int currentMenu; /**< Current menu. */
     Graph* gh; /**< Pointer to the graph. */
     Graph loadedGraph; /**< Graph to be loaded. */
+    Scraper::type_of_graph type; /**< Type of the graph. */
     string group; /**< Group of the graph. */
     string graph; /**< Name of the graph. */
 
