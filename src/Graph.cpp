@@ -129,7 +129,6 @@ double Graph::calculateTahTotalDistance(vInt &path) {
 
     dfsMst(s, path, count);
 
-
     path.push_back(0);
 
     for (auto i = 0; i < path.size() - 1; i++) {
@@ -331,17 +330,18 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
         improved = false;
         for (int i = 1; i < size - 2; i++) {
             for (int k = i + 1; k < size - 1; k++) {
-                vInt newPath = twoOptSwap(path, i, k);
-                newDistance = calculateTwoOptDistance(path, i, k, bestDistance);
-                if (newDistance < bestDistance) {
-                    bestDistance = newDistance;
-                    path = newPath;
+                int delta = -findVertex(path[i])->findEdge(findVertex(path[i+1])->getId())->getDistance()
+                            -findVertex(path[k])->findEdge(findVertex(path[k+1])->getId())->getDistance()
+                            +findVertex(path[i+1])->findEdge(findVertex(path[k+1])->getId())->getDistance()
+                            +findVertex(path[i])->findEdge(findVertex(path[k])->getId())->getDistance();
+
+                if (delta < 0) {
+                    path = twoOptSwap(path, i, k);
+                    bestDistance += delta;
                     improved = true;
                 }
             }
-
         }
-
     }
     return bestDistance;
 }
