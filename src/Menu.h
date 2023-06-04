@@ -14,16 +14,14 @@ public:
     Menu();
 
 private:
-    stack<int> menuStack; /**< Stack to keep track of the menus. */
+    stack<int> menuStack; /**< Stack to keep track of the visited menus. */
     int currentMenu; /**< Current menu. */
     Graph* gh; /**< Pointer to the graph. */
     Graph loadedGraph; /**< Graph to be loaded. */
     string group; /**< Group of the graph. */
     string graph; /**< Name of the graph. */
 
-    /**
-     * Enum to define the menus.
-     */
+    /// Enum to define the menus.
     enum menus{
         main_menu = 1,
         specific_graphs = 2,
@@ -32,27 +30,32 @@ private:
 
     /**
      * Draws the main menu.
+     * Complexity: O(1)
      */
     void drawMainMenu();
 
     /**
      * Draws the specific graphs menu.
+     * Complexity: O(1)
      */
     void drawSpecificGraphs();
 
     /**
      * Function that draws the menu from the top of the stack.
+     * Complexity: O(1)
      */
     void drawMenu();
 
     /**
      * Function to change the menu.
+     * Complexity: O(1)
      * @param newMenu - the new menu.
      */
     void changeMenu(int newMenu);
 
     /**
      * Function to go back to the previous menu.
+     * Complexity: O(1)
      */
     void back();
 
@@ -72,9 +75,9 @@ private:
 
     /**
      * Function to draw the choose algorithm menu.
+     * Complexity: O(1)
      */
     void drawChooseAlgorithm();
 };
-
 
 #endif //PROJECT_TSP_MENU_H

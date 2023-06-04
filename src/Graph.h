@@ -168,7 +168,6 @@ public:
      */
     double tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step);
 
-
     /**
      * Calculates the nearest neighbour route for the travelling salesman problem
      * complexity: O(V^2)
@@ -182,9 +181,8 @@ public:
     double calculateTwoOptDistance(vInt newPath, int i, int k, double bestDistance);
 
     double twoOpt(vInt &path, double bestDistance);
+
     double calculateTwoVerticesDist(Vertex *v1, Vertex *v2);
-
-
 
     double christofides();
 

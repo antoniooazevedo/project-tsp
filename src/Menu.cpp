@@ -258,44 +258,21 @@ void Menu::drawChooseAlgorithm() {
         case 1:
             distance = gh->tspBT(path);
             cout << "Total distance: " << distance << endl;
-
-            /*
-            cout << "Path: ";
-            for (int i: path) {
-                cout << i << " ";
-            }
-            cout << endl;
-             */
-
             break;
+
         case 2:
             distance = gh->calculateTahTotalDistance(path);
             cout << "Total distance: " << distance << endl;
-
-            /*
-             * cout << "Path: ";
-            for (int i: path) {
-                cout << i << " ";
-            }
-            cout << endl;
-             */
-
             break;
+
         case 3:
             distance = gh->nearestNeighbourRouteTsp(path);
             cout << "Total distance: " << distance << endl;
-
-            /*
-            cout << "Path: ";
-            for (int i: path) {
-                cout << i << " ";
-            }
-            cout << endl;
-            */
-
             break;
+
         case 4:
             break;
+
         default:
             break;
     }
