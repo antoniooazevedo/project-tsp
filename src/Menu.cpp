@@ -75,6 +75,7 @@ void Menu::drawMainMenu() {
 
 void Menu::drawSpecificGraphs() {
     loadedGraph = Graph();
+    complete = true;
     switch (stoi(group)) {
         case 1:
             cout << "Choose which graph to load:" << endl;
@@ -110,8 +111,7 @@ void Menu::drawSpecificGraphs() {
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    back();
-                    drawMenu();
+                    break;
                 }
             } while (!loadGraph(2, graph));
             break;
@@ -143,7 +143,12 @@ void Menu::drawSpecificGraphs() {
         default:
             break;
     }
-    changeMenu(choose_algorithm);
+    if (graph == "b" || graph == "B") {
+        back();
+        drawMenu();
+    } else {
+        changeMenu(choose_algorithm);
+    }
     drawMenu();
 }
 
@@ -164,6 +169,7 @@ bool Menu::loadGraph(int group, string graph) {
             switch (stoi(graph)) {
                 case 1:
                     filename = "../src/data/toy/shipping.csv";
+                    complete = false;
                     break;
                 case 2:
                     filename = "../src/data/toy/stadiums.csv";
@@ -228,9 +234,11 @@ bool Menu::loadGraph(int group, string graph) {
                     break;
                 case 2:
                     filename = "../src/data/real/graph2/nodes.csv";
+                    complete = false;
                     break;
                 case 3:
                     filename = "../src/data/real/graph3/nodes.csv";
+                    complete = false;
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -256,30 +264,42 @@ bool Menu::loadGraph(int group, string graph) {
 
 void Menu::drawChooseAlgorithm() {
     string option;
-    cout << "Choose which algorithm to run:" << endl
-         << "1 - Backtracking" << endl
-         << "2 - Triangular Approximation" << endl
-         << "3 - Nearest Neighbor" << endl
-         << "4 - Christofides' Algorithm" << endl
-         << "b - Back" << endl;
 
+    cout << "Choose which algorithm to run:" << endl;
+    if (group == to_string(1)) {
+        cout << "1 - Backtracking" << endl;
+    }
+    cout << "2 - Triangular Approximation" << endl
+         << "3 - Nearest Neighbor" << endl;
+    if (complete) {
+        cout << "4 - Christofides' Algorithm" << endl;
+    }
+    cout << "b - Back" << endl;
 
     getOption(option);
 
-    try{
+    try {
         stoi(option);
     } catch (invalid_argument &e) {
         if (option == "b" || option == "B") {
             back();
             drawMenu();
-        }
-        else{
+        } else {
             cout << "Invalid option!" << endl;
             drawMenu();
         }
     }
 
-    if (stoi(option) < 1 || stoi(option) > 4) {
+    if (group == to_string(1) && complete  && (stoi(option) < 1 || stoi(option) > 4)) {
+        cout << "Invalid option!" << endl;
+        drawMenu();
+    } else if (group != to_string(1) && complete && (stoi(option) < 2 || stoi(option) > 4)) {
+        cout << "Invalid option!" << endl;
+        drawMenu();
+    } else if (group == to_string(1) && !complete && (stoi(option) < 1 || stoi(option) > 3)) {
+        cout << "Invalid option!" << endl;
+        drawMenu();
+    } else if (group != to_string(1) && !complete && (stoi(option) < 2 || stoi(option) > 3)) {
         cout << "Invalid option!" << endl;
         drawMenu();
     }
@@ -314,7 +334,7 @@ void Menu::drawChooseAlgorithm() {
 
     string yn;
 
-    if(group != to_string(1)){
+    if (group != to_string(1)) {
         cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!"
              << endl << ">> ";
         getline(cin, yn);

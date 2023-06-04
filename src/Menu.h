@@ -20,6 +20,7 @@ private:
     Graph loadedGraph; /**< Graph to be loaded. */
     string group; /**< Group of the graph. */
     string graph; /**< Name of the graph. */
+    bool complete = true; /**< Boolean to check if the graph is complete. */
 
     /// Enum to define the menus.
     enum menus{
