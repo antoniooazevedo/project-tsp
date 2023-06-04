@@ -17,6 +17,7 @@
 #include "VertexEdge.h"
 #include "MutablePriorityQueue.h"
 #include "Graph.h"
+#include <unordered_set>
 
 
 using namespace std;
@@ -167,6 +168,20 @@ public:
     double tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step);
 
     void nearestNeighbourRouteTsp();
+
+    double christofides();
+
+    vector<Vertex *> findOddDegreeVertexes();
+
+    void greedyPerfectMatching(vector<Vertex *> &oddDegreeVertexes);
+
+    vector<Vertex *> buildEulerianTour();
+
+    vector<Vertex *> getOneEulerianPath(Vertex *orig);
+
+    vector<Vertex *> mergePath(vector<Vertex *> &eulerianTour, vector<Vertex *> path);
+
+    double calculateChrisDistance(vector<Vertex *> eulerianTour);
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */
