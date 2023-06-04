@@ -311,7 +311,7 @@ void Menu::drawChooseAlgorithm() {
         cout << "Optimizing path..." << endl;
         start = chrono::high_resolution_clock::now();
         double twoOptDistance = gh->twoOpt(path, distance);
-        cout << "Total improved distance: " << gh->twoOpt(path, distance) << endl;
+        cout << "Total improved distance: " << twoOptDistance << endl;
         cout << "Improvement: " << (distance - twoOptDistance) / distance * 100 << "%" << endl;
         finish = chrono::high_resolution_clock::now();
         elapsed += finish - start;
