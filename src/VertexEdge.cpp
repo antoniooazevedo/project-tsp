@@ -26,27 +26,6 @@ Edge * Vertex::addEdge(Vertex *d, double w) {
     return newEdge;
 }
 
-bool Vertex::removeEdge(int destID) {
-    bool removedEdge = false;
-    auto it = adj.begin();
-    while (it != adj.end()) {
-        Edge *edge = *it;
-        Vertex *dest = edge->getDest();
-        if (dest->getId() == destID) {
-            it = adj.erase(it);
-            deleteEdge(edge);
-            removedEdge = true; // allows for multiple edges to connect the same pair of vertices (multigraph)
-        }
-        else {
-            it++;
-        }
-    }
-    return removedEdge;
-}
-
-/*
- * Auxiliary function to remove an outgoing edge of a vertex.
- */
 void Vertex::removeOutgoingEdges() {
     auto it = adj.begin();
     while (it != adj.end()) {
@@ -63,10 +42,6 @@ std::vector<Edge*> Vertex::getAdj() const {
 
 Edge *Vertex::getPath() const {
     return this->path;
-}
-
-std::vector<Edge *> Vertex::getIncoming() const {
-    return this->incoming;
 }
 
 void Vertex::setPath(Edge *path) {
@@ -95,9 +70,6 @@ double Vertex::getPrimDist() const {
 void Vertex::setPrimDist(double dist) {
     this->primDist = dist;
 }
-bool Vertex::getVisited() const {
-    return this->visited;
-}
 
 void Vertex::setVisited(bool visited) {
     this->visited = visited;
@@ -115,16 +87,8 @@ double Vertex::getLatitude() const {
     return latitude;
 }
 
-void Vertex::setLatitude(double latitude) {
-    Vertex::latitude = latitude;
-}
-
 double Vertex::getLongitude() const {
     return longitude;
-}
-
-void Vertex::setLongitude(double longitude) {
-    Vertex::longitude = longitude;
 }
 
 Edge *Vertex::findEdge(int dest) {
@@ -136,12 +100,12 @@ Edge *Vertex::findEdge(int dest) {
     return nullptr;
 }
 
-int Vertex::getIndegree() const {
-    return this->indegree;
+int Vertex::getOutdegree() const {
+    return this->outdegree;
 }
 
-void Vertex::setIndegree(int indegree) {
-    this->indegree = indegree;
+void Vertex::setOutdegree(int outdegree) {
+    this->outdegree = outdegree;
 }
 
 /********************** Edge  ****************************/
