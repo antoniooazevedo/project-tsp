@@ -332,11 +332,10 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
         improved = false;
         for (int i = 1; i < size - 2; i++) {
             for (int k = i + 1; k < size - 1; k++) {
-                double delta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
+                int delta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
                             calculateTwoVerticesDist(findVertex(path[k]), findVertex(path[k + 1])) +
                             calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[k])) +
                             calculateTwoVerticesDist(findVertex(path[i + 1]), findVertex(path[k + 1]));
-
                 if (delta < 0) {
                     path = twoOptSwap(path, i, k);
                     bestDistance += delta;
@@ -348,16 +347,9 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
     return bestDistance;
 }
 
-double Graph::calculateTwoOptDistance(vInt path, int i, int k, double totalDistance) {
-    double lengthDelta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
-                         calculateTwoVerticesDist(findVertex(path[k]), findVertex(path[k + 1])) +
-                         calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[k])) +
-                         calculateTwoVerticesDist(findVertex(path[i + 1]), findVertex(path[k + 1]));
-    return totalDistance + lengthDelta;
-}
-
 double Graph::calculateTwoVerticesDist(Vertex *v1, Vertex *v2) {
-    return v1->findEdge(v2->getId()) == nullptr ? haversineCalculator(v1->getLatitude(), v1->getLongitude(),v2->getLatitude(), v2->getLongitude()): v1->findEdge(v2->getId())->getDistance();
+    Edge *e = v1->findEdge(v2->getId());
+    return e == nullptr ? haversineCalculator(v1->getLatitude(), v1->getLongitude(),v2->getLatitude(), v2->getLongitude()): e->getDistance();
 }
 
 vInt Graph::twoOptSwap(vInt path, int i, int k) {

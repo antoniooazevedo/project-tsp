@@ -179,8 +179,6 @@ public:
 
     vInt twoOptSwap(vInt path, int i, int k);
 
-    double calculateTwoOptDistance(vInt newPath, int i, int k, double bestDistance);
-
     double twoOpt(vInt &path, double bestDistance);
     double calculateTwoVerticesDist(Vertex *v1, Vertex *v2);
 

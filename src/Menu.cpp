@@ -263,10 +263,20 @@ void Menu::drawChooseAlgorithm() {
          << "4 - Christofides' Algorithm" << endl
          << "b - Back" << endl;
 
+
     getOption(option);
-    if (option == "b" || option == "B") {
-        back();
-        drawMenu();
+
+    try{
+        stoi(option);
+    } catch (invalid_argument &e) {
+        if (option == "b" || option == "B") {
+            back();
+            drawMenu();
+        }
+        else{
+            cout << "Invalid option!" << endl;
+            drawMenu();
+        }
     }
 
     if (stoi(option) < 1 || stoi(option) > 4) {
@@ -322,21 +332,22 @@ void Menu::drawChooseAlgorithm() {
 
     string yn;
 
-    cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!"
-         << endl << ">> ";
-    getline(cin, yn);
+    if(group != to_string(1)){
+        cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!"
+             << endl << ">> ";
+        getline(cin, yn);
 
-    if (yn == "y" || yn == "Y") {
-        system("clear");
-        cout << "Optimizing path..." << endl;
-        start = chrono::high_resolution_clock::now();
-        double twoOptDistance = gh->twoOpt(path, distance);
-        cout << "Total improved distance: " << twoOptDistance << "m" << endl;
-        cout << "Improvement: " << (distance - twoOptDistance) / distance * 100 << "%" << endl;
-        finish = chrono::high_resolution_clock::now();
-        elapsed += finish - start;
+        if (yn == "y" || yn == "Y") {
+            system("clear");
+            cout << "Optimizing path..." << endl;
+            start = chrono::high_resolution_clock::now();
+            double twoOptDistance = gh->twoOpt(path, distance);
+            cout << "Total improved distance: " << twoOptDistance << "m" << endl;
+            cout << "Improvement: " << (distance - twoOptDistance) / distance * 100 << "%" << endl;
+            finish = chrono::high_resolution_clock::now();
+            elapsed += finish - start;
+        }
     }
-
     cout << "Elapsed time: " << elapsed.count() << " s\n";
     string dummy;
     cout << "Press anything to continue...\n";
