@@ -83,6 +83,7 @@ void Menu::drawSpecificGraphs() {
             cout << "2 - Stadiums" << endl;
             cout << "3 - Tourism" << endl;
             cout << "b - Back" << endl;
+            cout << "q - Quit" << endl;
 
             do {
                 getOption(graph);
@@ -106,7 +107,8 @@ void Menu::drawSpecificGraphs() {
                  << "10 - 700 nodes" << endl
                  << "11 - 800 nodes" << endl
                  << "12 - 900 nodes" << endl
-                 << "b - Back" << endl;
+                 << "b - Back" << endl
+                 << "q - Quit" << endl;
 
             do {
                 getOption(graph);
@@ -120,7 +122,8 @@ void Menu::drawSpecificGraphs() {
                  << "1 - Graph 1 (1K nodes 500K edges)" << endl
                  << "2 - Graph 2 (5K nodes 3M edges)" << endl
                  << "3 - Graph 3 (10K nodes 10M edges)" << endl
-                 << "b - Back" << endl;
+                 << "b - Back" << endl
+                 << "q - Quit" << endl;
 
             do {
                 getOption(graph);
@@ -132,7 +135,8 @@ void Menu::drawSpecificGraphs() {
         case 4:
             cout << "Choose which graph to load:" << endl
                  << "1 - Graph 1" << endl
-                 << "b - Back" << endl;
+                 << "b - Back" << endl
+                 << "q - Quit" << endl;
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
@@ -277,6 +281,7 @@ void Menu::drawChooseAlgorithm() {
         cout << optionNumber++ << " - Christofides' Algorithm" << endl;
     }
     cout << "b - Back" << endl;
+    cout << "q - Quit" << endl;
 
     getOption(option);
 
