@@ -75,6 +75,7 @@ void Menu::drawMainMenu() {
 
 void Menu::drawSpecificGraphs() {
     loadedGraph = Graph();
+    complete = true;
     switch (stoi(group)) {
         case 1:
             cout << "Choose which graph to load:" << endl;
@@ -82,6 +83,7 @@ void Menu::drawSpecificGraphs() {
             cout << "2 - Stadiums" << endl;
             cout << "3 - Tourism" << endl;
             cout << "b - Back" << endl;
+            cout << "q - Quit" << endl;
 
             do {
                 getOption(graph);
@@ -105,13 +107,13 @@ void Menu::drawSpecificGraphs() {
                  << "10 - 700 nodes" << endl
                  << "11 - 800 nodes" << endl
                  << "12 - 900 nodes" << endl
-                 << "b - Back" << endl;
+                 << "b - Back" << endl
+                 << "q - Quit" << endl;
 
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
-                    back();
-                    drawMenu();
+                    break;
                 }
             } while (!loadGraph(2, graph));
             break;
@@ -120,7 +122,8 @@ void Menu::drawSpecificGraphs() {
                  << "1 - Graph 1 (1K nodes 500K edges)" << endl
                  << "2 - Graph 2 (5K nodes 3M edges)" << endl
                  << "3 - Graph 3 (10K nodes 10M edges)" << endl
-                 << "b - Back" << endl;
+                 << "b - Back" << endl
+                 << "q - Quit" << endl;
 
             do {
                 getOption(graph);
@@ -132,7 +135,8 @@ void Menu::drawSpecificGraphs() {
         case 4:
             cout << "Choose which graph to load:" << endl
                  << "1 - Graph 1" << endl
-                 << "b - Back" << endl;
+                 << "b - Back" << endl
+                 << "q - Quit" << endl;
             do {
                 getOption(graph);
                 if (graph == "b" || graph == "B") {
@@ -143,7 +147,12 @@ void Menu::drawSpecificGraphs() {
         default:
             break;
     }
-    changeMenu(choose_algorithm);
+    if (graph == "b" || graph == "B") {
+        back();
+        drawMenu();
+    } else {
+        changeMenu(choose_algorithm);
+    }
     drawMenu();
 }
 
@@ -163,6 +172,7 @@ bool Menu::loadGraph(int group, string graph) {
             switch (stoi(graph)) {
                 case 1:
                     filename = "../src/data/toy/shipping.csv";
+                    complete = false;
                     break;
                 case 2:
                     filename = "../src/data/toy/stadiums.csv";
@@ -227,9 +237,11 @@ bool Menu::loadGraph(int group, string graph) {
                     break;
                 case 2:
                     filename = "../src/data/real/graph2/nodes.csv";
+                    complete = false;
                     break;
                 case 3:
                     filename = "../src/data/real/graph3/nodes.csv";
+                    complete = false;
                     break;
                 default:
                     cout << "Invalid option. Try Again\n";
@@ -255,48 +267,69 @@ bool Menu::loadGraph(int group, string graph) {
 
 void Menu::drawChooseAlgorithm() {
     string option;
-    cout << "Choose which algorithm to run:" << endl
-         << "1 - Backtracking" << endl
-         << "2 - Triangular Approximation" << endl
-         << "3 - Nearest Neighbor" << endl
-         << "4 - Christofides' Algorithm" << endl
-         << "b - Back" << endl;
+    int optionNumber = 1;
+    bool offset = false;
+
+    cout << "Choose which algorithm to run:" << endl;
+    if (group == to_string(1)) {
+        cout << optionNumber++ << " - Backtracking" << endl;
+    }
+    cout << optionNumber++ << " - Triangular Approximation" << endl;
+    cout << optionNumber++ << " - Nearest Neighbor" << endl;
+    if (complete) {
+        cout << optionNumber++ << " - Christofides' Algorithm" << endl;
+    }
+    cout << "b - Back" << endl;
+    cout << "q - Quit" << endl;
 
     getOption(option);
-    if (option == "b" || option == "B") {
-        back();
+
+    try {
+        stoi(option);
+    } catch (invalid_argument &e) {
+        if (option == "b" || option == "B") {
+            back();
+            drawMenu();
+        } else {
+            cout << "Invalid option!" << endl;
+            drawMenu();
+        }
+    }
+
+    if (stoi(option) < 1 || stoi(option) > optionNumber - 1) {
+        cout << "Invalid option!" << endl;
         drawMenu();
     }
 
-    if (stoi(option) < 1 || stoi(option) > 4) {
-        cout << "Invalid option!" << endl;
-        drawMenu();
+    if (group != to_string(1)) {
+        offset = true;
     }
 
     vInt path(gh->getVertexSet().size());
     auto start = chrono::high_resolution_clock::now();
     double distance;
-    switch (stoi(option)) {
+    switch (offset ? stoi(option) + 1: stoi(option)) {
         case 1:
             distance = gh->tspBT(path);
             cout << "Total distance: " << distance << endl;
-
             break;
+
         case 2:
             distance = gh->calculateTahTotalDistance(path);
             cout << "Total distance: " << distance << endl;
-
             break;
+
         case 3:
             distance = gh->nearestNeighbourRouteTsp(path);
             cout << "Total distance: " << distance << endl;
-
             break;
+
         case 4:
-            distance = gh->christofides();
+            distance = gh->christofides(path);
             cout << "Total distance: " << distance << endl;
 
             break;
+
         default:
             break;
     }
@@ -304,7 +337,8 @@ void Menu::drawChooseAlgorithm() {
     chrono::duration<double> elapsed = finish - start;
 
     string yn;
-    if (type != Scraper::toy){
+
+    if (group != to_string(1)) {
         cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!"
              << endl << ">> ";
         getline(cin, yn);
@@ -320,7 +354,6 @@ void Menu::drawChooseAlgorithm() {
             elapsed += finish - start;
         }
     }
-
     cout << "Elapsed time: " << elapsed.count() << " s\n";
     string dummy;
     cout << "Press anything to continue...\n";

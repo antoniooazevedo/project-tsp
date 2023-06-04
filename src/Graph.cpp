@@ -10,13 +10,6 @@ Vertex *Graph::findVertex(const int &id) const {
     else return v->second;
 }
 
-bool Graph::addVertex(const int &id) {
-    if (findVertex(id) != nullptr)
-        return false;
-    vertexSet.insert({id, new Vertex(id)});
-    return true;
-}
-
 bool Graph::addVertex(Vertex *v) {
     if (findVertex(v->getId()) != nullptr)
         return false;
@@ -24,28 +17,7 @@ bool Graph::addVertex(Vertex *v) {
     return true;
 }
 
-bool Graph::removeVertex(const int &id) {
-    if (findVertex(id) == nullptr) return false;
-    auto v = findVertex(id);
-    v->removeOutgoingEdges();
-    vertexSet.erase(id);
-    return true;
-}
-
-bool Graph::removeVertex(Vertex *v) {
-    if (findVertex(v->getId()) == nullptr) return false;
-    v->removeOutgoingEdges();
-    vertexSet.erase(v->getId());
-    return true;
-}
-
 Graph::~Graph() {
-}
-
-bool Graph::addEdge(Vertex *v1, Vertex *v2, double distance) {
-    if (v1 == nullptr || v2 == nullptr) return false;
-    v1->addEdge(v2, distance);
-    return true;
 }
 
 bool Graph::addBidirectionalEdge(Vertex *&v1, Vertex *&v2, double dist) {
@@ -69,7 +41,7 @@ void Graph::mstBuild() {
         v.second->setPrimDist(DBL_MAX);
         v.second->setVisited(false);
         q.insert(v.second);
-        v.second->setIndegree(0);
+        v.second->setOutdegree(0);
         for (Edge *e: v.second->getAdj()) {
             e->setSelected(false);
             e->getReverse()->setSelected(false);
@@ -103,7 +75,6 @@ void Graph::mstBuild() {
         }
     }
 }
-
 
 void Graph::dfsMst(Vertex *v, vInt &path, int &count) {
     v->setVisited(true);
@@ -191,11 +162,15 @@ double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, doub
 
     for (auto v: vertexSet) {
         Vertex *destVertex = v.second;
+
+        if (destVertex->isVisited())
+            continue;
+
         Edge *e = currVertex->findEdge(v.first);
         if (e == nullptr) continue;
         double dist = e->getDistance();
 
-        if (!destVertex->getVisited() && currSum + dist < bestSum) {
+        if (currSum + dist < bestSum) {
             destVertex->setVisited(true);
             thisSum = tspBacktracking(path, v.first, currSum + dist, bestSum, step + 1);
             if (thisSum < bestSum) {
@@ -211,18 +186,18 @@ double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, doub
 
 vector<Vertex *> Graph::findOddDegreeVertexes() {
     vector<Vertex *> oddDegreeVertices;
-    int indegree;
+    int outdegree;
 
     for (auto v: vertexSet) {
-        indegree = 0;
+        outdegree = 0;
         for (Edge *e: v.second->getAdj()) {
             if (e->getSelected())
-                indegree++;
+                outdegree++;
         }
-        if (indegree % 2 == 1)
+        if (outdegree % 2 == 1)
             oddDegreeVertices.push_back(v.second);
 
-        v.second->setIndegree(indegree);
+        v.second->setOutdegree(outdegree);
     }
 
     return oddDegreeVertices;
@@ -253,14 +228,14 @@ void Graph::greedyPerfectMatching(vector<Vertex *> &oddDegreeVertexes) {
         if (toAdd->getSelected()) {
             toAdd->setIsDouble(true);
             toAdd->getReverse()->setIsDouble(true);
-            toAdd->getOrig()->setIndegree(toAdd->getOrig()->getIndegree() + 1);
-            toAdd->getDest()->setIndegree(toAdd->getDest()->getIndegree() + 1);
+            toAdd->getOrig()->setOutdegree(toAdd->getOrig()->getOutdegree() + 1);
+            toAdd->getDest()->setOutdegree(toAdd->getDest()->getOutdegree() + 1);
         }
         else {
             toAdd->setSelected(true);
             toAdd->getReverse()->setSelected(true);
-            toAdd->getOrig()->setIndegree(toAdd->getOrig()->getIndegree() + 1);
-            toAdd->getDest()->setIndegree(toAdd->getDest()->getIndegree() + 1);
+            toAdd->getOrig()->setOutdegree(toAdd->getOrig()->getOutdegree() + 1);
+            toAdd->getDest()->setOutdegree(toAdd->getDest()->getOutdegree() + 1);
         }
 
         oddDegreeVertexes.erase(toRemove);
@@ -280,9 +255,9 @@ double Graph::nearestNeighbourRouteTsp(vInt &path) {
     int numVisited = 1;
 
     while (numVisited < vertexSet.size()) {
-        auto minDistance = DBL_MAX;
+        double minDistance = DBL_MAX;
         for (auto e: currVertex->getAdj()) {
-            if (e->getDistance() < minDistance && !e->getDest()->getVisited()) {
+            if (e->getDistance() < minDistance && !e->getDest()->isVisited()) {
                 minDistance = e->getDistance();
                 nextVertex = e->getDest();
             }
@@ -310,7 +285,7 @@ Vertex *Graph::findNearestHaversine(Vertex *currentV) {
     auto minDistance = DBL_MAX;
     Vertex *nearestV;
     for (auto v: vertexSet) {
-        if (currentV->findEdge(v.second->getId()) || v.second->getVisited()) {
+        if (currentV->findEdge(v.second->getId()) || v.second->isVisited()) {
             continue;
         }
         double distance = haversineCalculator(currentV->getLatitude(), currentV->getLongitude(),v.second->getLatitude(), v.second->getLongitude());
@@ -332,11 +307,10 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
         improved = false;
         for (int i = 1; i < size - 2; i++) {
             for (int k = i + 1; k < size - 1; k++) {
-                double delta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
+                int delta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
                             calculateTwoVerticesDist(findVertex(path[k]), findVertex(path[k + 1])) +
                             calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[k])) +
                             calculateTwoVerticesDist(findVertex(path[i + 1]), findVertex(path[k + 1]));
-
                 if (delta < 0) {
                     path = twoOptSwap(path, i, k);
                     bestDistance += delta;
@@ -345,19 +319,13 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
             }
         }
     }
+
     return bestDistance;
 }
 
-double Graph::calculateTwoOptDistance(vInt path, int i, int k, double totalDistance) {
-    double lengthDelta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
-                         calculateTwoVerticesDist(findVertex(path[k]), findVertex(path[k + 1])) +
-                         calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[k])) +
-                         calculateTwoVerticesDist(findVertex(path[i + 1]), findVertex(path[k + 1]));
-    return totalDistance + lengthDelta;
-}
-
 double Graph::calculateTwoVerticesDist(Vertex *v1, Vertex *v2) {
-    return v1->findEdge(v2->getId()) == nullptr ? haversineCalculator(v1->getLatitude(), v1->getLongitude(),v2->getLatitude(), v2->getLongitude()): v1->findEdge(v2->getId())->getDistance();
+    Edge *e = v1->findEdge(v2->getId());
+    return e == nullptr ? haversineCalculator(v1->getLatitude(), v1->getLongitude(),v2->getLatitude(), v2->getLongitude()): e->getDistance();
 }
 
 vInt Graph::twoOptSwap(vInt path, int i, int k) {
@@ -387,7 +355,7 @@ vector<Vertex *> Graph::buildEulerianTour() {
         finished = true;
 
         for (Vertex *v : eulerianTour) {
-            if (v->getIndegree() > 0) {
+            if (v->getOutdegree() > 0) {
                 curr = v;
                 finished = false;
                 break;
@@ -416,8 +384,8 @@ vector<Vertex *> Graph::getOneEulerianPath(Vertex *orig) {
             if (adj->getIsDouble()) {
                 adj->setIsDouble(false);
                 adj->getReverse()->setIsDouble(false);
-                adjOrig->setIndegree(adjOrig->getIndegree() - 1);
-                adjDest->setIndegree(adjDest->getIndegree() - 1);
+                adjOrig->setOutdegree(adjOrig->getOutdegree() - 1);
+                adjDest->setOutdegree(adjDest->getOutdegree() - 1);
                 eulerianPath.push_back(adj->getDest());
                 curr = adj->getDest();
 
@@ -426,8 +394,8 @@ vector<Vertex *> Graph::getOneEulerianPath(Vertex *orig) {
             else if (adj->getSelected()) {
                 adj->setSelected(false);
                 adj->getReverse()->setSelected(false);
-                adjOrig->setIndegree(adjOrig->getIndegree() - 1);
-                adjDest->setIndegree(adjDest->getIndegree() - 1);
+                adjOrig->setOutdegree(adjOrig->getOutdegree() - 1);
+                adjDest->setOutdegree(adjDest->getOutdegree() - 1);
                 eulerianPath.push_back(adj->getDest());
                 curr = adj->getDest();
 
@@ -455,10 +423,29 @@ vector<Vertex *> Graph::mergePath(vector<Vertex *> &eulerianTour, vector<Vertex 
     return newTour;
 }
 
+vInt Graph::removeRepeatingVertexes(vector<Vertex *> path) {
+    vInt unique_path;
+
+    for (auto v: vertexSet) {
+        v.second->setVisited(false);
+    }
+
+    for (Vertex *v: path) {
+        if (!v->isVisited()) {
+            unique_path.push_back(v->getId());
+            v->setVisited(true);
+        }
+    }
+
+    unique_path.push_back(0);
+
+    return unique_path;
+}
+
 double Graph::calculateChrisDistance(vector<Vertex *> eulerianTour) {
     unordered_set<Vertex *> visited;
     double dist = 0;
-    int p1 = 0, p2 = 1, count = 0;
+    int p1 = 0, p2 = 1;
 
     visited.insert(eulerianTour[0]);
 
@@ -466,7 +453,6 @@ double Graph::calculateChrisDistance(vector<Vertex *> eulerianTour) {
         if (visited.find(eulerianTour[p2]) == visited.end() || p2 == eulerianTour.size() - 1) {
             visited.insert(eulerianTour[p2]);
             dist += eulerianTour[p1]->findEdge(eulerianTour[p2]->getId())->getDistance();
-            cout << ++count << "- " << eulerianTour[p1]->getId() << " --> " << eulerianTour[p2]->getId() << endl;
             p1 = p2; p2++;
         }
         else
@@ -476,7 +462,7 @@ double Graph::calculateChrisDistance(vector<Vertex *> eulerianTour) {
     return dist;
 }
 
-double Graph::christofides() {
+double Graph::christofides(vInt &path) {
     mstBuild();
 
     vector<Vertex *> oddDegreeVertices = findOddDegreeVertexes();
@@ -484,6 +470,8 @@ double Graph::christofides() {
     greedyPerfectMatching(oddDegreeVertices);
 
     vector<Vertex *> eulerianTour = buildEulerianTour();
+
+    path = removeRepeatingVertexes(eulerianTour);
 
     return calculateChrisDistance(eulerianTour);
 }

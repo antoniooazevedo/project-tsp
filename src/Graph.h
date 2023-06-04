@@ -28,130 +28,79 @@ typedef vector<int> vInt;
 class Graph {
 public:
     /**
-     * Default constructor for the Graph class;
+     * Graph's destructor
      */
     ~Graph();
 
     /**
-     * Auxiliary function to find a vertex with a given ID.
-     * Time Complexity: O(1
-     * @param id - the id of the vertex;
-     * @return the vertex with the given id;
+     * Auxiliary function to find a vertex with a given id
+     * Complexity: O(1)
+     * @param id - the id of the vertex
+     * @return the vertex with the given id or nullptr if it isn't found
     */
     Vertex *findVertex(const int &id) const;
 
     /**
-     *  Adds a vertex with a given string id to a graph (this).
-     *  Time Complexity: O(1)
-     *  @param id - the id of the vertex;
-     *  @return true - if successful
-     *          false - if a vertex with that id already exists.
-     */
-    bool addVertex(const int &id);
-
-    /**
-     * Adds a vertex to a graph (this).
-     * Time Complexity: O(1)
-     * @param v - the vertex to be added;
+     * Adds a vertex to a graph (this)
+     * Complexity: O(1)
+     * @param v - the vertex to be added
      * @return true - if successful
-     *         false - if a vertex with that id already exists.
+     *         false - if a vertex with that id already exists
      */
     bool addVertex(Vertex *v);
 
-
     /**
-     * Removes a vertex with a given string id from a graph (this).
-     * Time Complexity: O(V), where V is the number of vertices of the graph.
-     * @param id - the id of the vertex;
-     * @return true - if successful
-     *         false - if a vertex with that id does not exist.
-     */
-    bool removeVertex(const int &id);
-
-    /**
-     * Removes a vertex from a graph (this).
-     * Time Complexity: O(V), where V is the number of vertices of the graph.
-     * @param v - the vertex to be removed;
-     * @return true - if successful
-     *         false - if a vertex with that id does not exist.
-     */
-    bool removeVertex(Vertex *v);
-
-    /**
-     * Gets the vertex set of a graph (this).
+     * Gets the vertexSet of the graph
      * Time Complexity: O(1)
-     * @return the vertex set.
+     * @return a map with all the vertexes of the graph.
      */
     unordered_map<int, Vertex *> getVertexSet() const;
 
     /**
-     * Adds an edge to the graph between two vertexes with a given distance.
+     * Adds a bidirectional edge to the graph between two vertexes with a given distance
      * Time Complexity: O(1)
      * @param v1 - the first vertex
      * @param v2 - the second vertex
-     * @param distance - the distance of the edge
-     * @return true if successful, false otherwise
-     */
-    void connectedComponentsDfs(Vertex *src, int i);
-
-    /**
-     * add an edge to the graph
-     * @param v1 - first vertex
-     * @param v2 - second vertex
-     * @param distance - distance between the two vertexes
-     */
-    bool addEdge(Vertex *v1, Vertex *v2, double distance);
-
-    /**
-     * add a bidirectional edge to the graph
-     * @param v1 - first vertex
-     * @param v2 - second vertex
-     * @param distance - distance between the two vertexes
-    bool addEdge(Vertex *v1, Vertex *v2, double distance);
-
-    /**
-     * Adds a bidirectional edge to the graph between two vertexes with a given distance.
-     * Time Complexity: O(1)
-     * @param v1 - the first vertex
-     * @param v2 - the second vertex
-     * @param distance - the distance of the edge
+     * @param dist - the length of the edge
      * @return true if successful, false otherwise
      */
     bool addBidirectionalEdge(Vertex * &v1, Vertex * &v2, double dist);
 
     /**
-     * builds the minimum spanning tree of the graph using Prim's algorithm
-     * complexity: O(E*log(V))
+     * Builds the minimum spanning tree of the graph using Prim's algorithm
+     * Complexity: O(E*log(V)) where E is the number of edges and V the number of edges of the graph
      */
     void mstBuild();
 
     /**
-     * dfs that build the route for the tsp
-     *  complexity: O(V+E)
+     * Depth first search on the graph, which defines the route for the 2-approximate tsp algorithm
+     * Complexity: O(V+E)
      * @param v - vertex to start the dfs
-     * @param res - vector with the vertexes in the dfs order
+     * @param path - vector with the vertexes in the order visited in the dfs
+     * @param count - number of vertexes that have already been assigned an order
      */
     void dfsMst(Vertex *v, vInt &path, int &count);
 
     /**
-     * calculates the total distance of the route
-     * complexity: O(V+E)
+     * Computes the total distance of the route in the argument path
+     * Complexity: O(V+E)
      */
     double calculateTahTotalDistance(vInt &path);
 
     /**
-     * calculate the distance between two points using the haversine formula
-     * complexity: O(1)
-     * @param lat1  - latitude of the first point
-     * @param long1 - longitude of the first point
-     * @param lat2 - latitude of the second point
-     * @param long2 - longitude of the second point
-     * @return distance between the two points
+     * Computes the distance between two points using the haversine formula
+     * Complexity: O(1)
+     * @param lat1  - latitude of the first vertex
+     * @param long1 - longitude of the first vertex
+     * @param lat2 - latitude of the second vertex
+     * @param long2 - longitude of the second vertex
+     * @return distance between the two vertexes
      */
     double haversineCalculator(double lat1, double long1, double lat2, double long2);
 
     /**
      * Calls the backtracking algorithm for the travelling salesman problem
+     * Complexity: O(V!) being V the number of vertexes in the graph
      * @param path vector that keeps the vertexes in the order they were visited
      * @return distance travelled in the backtracking algorithm for the travelling salesman problem
      */
@@ -159,49 +108,122 @@ public:
 
     /**
      * Recursive backtracking algorithm that gives the optimal solution to the traveling salesman problem
-     * @param path vector that keeps the vertexes in the order they were visited
+     * Complexity: O(V!) being V the number of vertexes in the graph
+     * @param path vector that keeps the vertexes in the order they were visited in a previous dfs call
      * @param currVertexId id of the currently visited vertex
      * @param currSum distance travelled through the vertexes that were visited
      * @param bestSum least distance travelled through all the vertexes until now
      * @param step number of vertexes that were already visited
-     * @return best distance travelled from all the sets that were already experimented
+     * @return best distance travelled from all the sets that were already tried
      */
     double tspBacktracking(vInt &path, int currVertexId, double currSum, double bestSum, uint step);
 
-
     /**
-     * Calculates the nearest neighbour route for the travelling salesman problem
-     * complexity: O(V^2)
+     * Computes the nearest neighbour route for the travelling salesman problem
+     * Complexity: O(V^2 * E) where V is the number of vertexes and E the number of edges in the graph
      */
     double nearestNeighbourRouteTsp(vInt &path);
 
+    /**
+     * Find nearest vertex from currentV that isn't connected to it through a direct edge on the graph. The distance is determined with the Haversine formula
+     * Complexity: O(V*E) where V is the number of vertexes and E is the number of edges of the graph
+     * @param currentV vertex to compare to
+     * @return the vertex with no edge directly connected to currentV that is the closest to currentV
+     */
     Vertex * findNearestHaversine(Vertex *currentV);
 
+    /**
+     * Performs a swap in the 2-opt tour improvement algorithm
+     * Complexity: O(V) being V the number of vertexes in the graph
+     * @param path current order of the vertexes to compute the tsp distance
+     * @param i index of the first vertex in path to be considered in the swap
+     * @param k index of the second vertex in path to be considered in the swap
+     * @return updated reordered path according to the swap
+     */
     vInt twoOptSwap(vInt path, int i, int k);
 
-    double calculateTwoOptDistance(vInt newPath, int i, int k, double bestDistance);
-
+    /**
+     * Tour improvement algorithm to be ran after a solution has been found for the tsp problem
+     * Complexity: the complexity of this algorithm isn't clear. However, the lower bound is Ω(E*V³) where V is the number
+     * of vertexes and E the number of edges in the graph. The upper bound could be O(E*V³) as well, but a 2opt swap isn't
+     * guaranteed to not for a new intersection between edges
+     * @param path tour considered in the algorithm that gave the solution to the tsp
+     * @param bestDistance distance that comes from a previous heuristic to find the solution for the tsp
+     * @return the lowest distance of the path obtained with this algorithm
+     */
     double twoOpt(vInt &path, double bestDistance);
+
+    /**
+     * Computes the distance between two vertexes. If there is an edge between the vertexes, the length of the edge is used.
+     * Otherwise, the Haversine formula is used
+     * Complexity: O(E) where E is the number of edges in the graph
+     * @param v1 the first vertex to be considered
+     * @param v2 the second vertex to be considered
+     * @return the distance between v1 and v2
+     */
     double calculateTwoVerticesDist(Vertex *v1, Vertex *v2);
 
+    /**
+     * Runs the christofides heuristic to solve the tsp problem. This version of the algorithm uses a greedy approach
+     * instead of the blossom algorithm for the perfect matching step
+     * Complexity: O(V²*E) where V is the number of vertixes and E the number of edges in the graph
+     * @param path vector that will be filled with the eulerian path without repeated vertexes (excluding the starting vertex)
+     * @return distance travelled in the christofides algorithm for the travelling salesman problem
+     */
+    double christofides(vInt &path);
 
-
-    double christofides();
-
+    /**
+     * Finds all the vertexes in a previously built MST that have an odd number of outgoing edges
+     * Complexity: O(V*E) where V is the number of vertexes and E the number of edges in the graph
+     * @return a vector with all the vertexes that follow the criteria above
+     */
     vector<Vertex *> findOddDegreeVertexes();
 
+    /**
+     * Performs a greedy perfect matching between the vertexes in the oddDegreeVertexes vector
+     * Complexity: O(V²*E) where V is the number of vertexes and E is the number of edges in the graph
+     * @param oddDegreeVertexes vector of the vertexes that have an odd number of outgoing edges in a previously build MST
+     */
     void greedyPerfectMatching(vector<Vertex *> &oddDegreeVertexes);
 
+    /**
+     * Builds an eurelian tour, that is, a tour that passes by each edge only once and that starts and ends in the same vertex
+     * This tour passes by all the vertexes in the graph
+     * Complexity: O((V+E) * V) where V is the number of vertexes and E the number of edges in the graph
+     * @return the order in which the vertexes are traversed in the eulerian tour
+     */
     vector<Vertex *> buildEulerianTour();
 
+    /**
+     * Builds one eulerian path, that is, a path that starts in the vertex orig and ends in that same vertex. The build path
+     * does not have to traverse every edge and vertex of the graph
+     * Complexity: O(V+E) where V is the number of vertexes and E is the number of edges in the graph
+     * @param orig vertex to start the path
+     * @return
+     */
     vector<Vertex *> getOneEulerianPath(Vertex *orig);
 
+    /**
+     * Merges an eulerian path into the current eulerian tour
+     * Complexity: O(V) where V is the number of vertexes in the graph
+     * @param eulerianTour current eulerian tour
+     * @param path eulerian path recently found
+     * @return updated eulerian tour with the recently found path merged into it
+     */
     vector<Vertex *> mergePath(vector<Vertex *> &eulerianTour, vector<Vertex *> path);
 
+    /**
+     * Computes the distance that takes to traverse the eulerian tour
+     * Complexity: O(V) where V is the number of vertexes in the graph
+     * @param eulerianTour order of the vertexes in the eulerian tour
+     * @return total distance that was traversed
+     */
     double calculateChrisDistance(vector<Vertex *> eulerianTour);
 
+    vInt removeRepeatingVertexes(vector<Vertex *> path);
+
 protected:
-    std::unordered_map<int, Vertex *> vertexSet; /**< The vertex set of the graph. */
+    std::unordered_map<int, Vertex *> vertexSet; /**< The map with all the vertexes of the graph */
 
 
 };
