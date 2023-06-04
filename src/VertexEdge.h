@@ -116,6 +116,7 @@ public:
 
     /**
      * Finds an edge that connects the current vertex (this) to the destination vertex
+     * Ccomplexity: O(E) where E is the number of edges in the graph
      * @param dest id of the destination vertex
      * @return a pointer to the selected edge or nullptr if there is no edge connecting the current vertex to dest
      */

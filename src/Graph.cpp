@@ -10,13 +10,6 @@ Vertex *Graph::findVertex(const int &id) const {
     else return v->second;
 }
 
-bool Graph::addVertex(const int &id) {
-    if (findVertex(id) != nullptr)
-        return false;
-    vertexSet.insert({id, new Vertex(id)});
-    return true;
-}
-
 bool Graph::addVertex(Vertex *v) {
     if (findVertex(v->getId()) != nullptr)
         return false;
@@ -24,28 +17,7 @@ bool Graph::addVertex(Vertex *v) {
     return true;
 }
 
-bool Graph::removeVertex(const int &id) {
-    if (findVertex(id) == nullptr) return false;
-    auto v = findVertex(id);
-    v->removeOutgoingEdges();
-    vertexSet.erase(id);
-    return true;
-}
-
-bool Graph::removeVertex(Vertex *v) {
-    if (findVertex(v->getId()) == nullptr) return false;
-    v->removeOutgoingEdges();
-    vertexSet.erase(v->getId());
-    return true;
-}
-
 Graph::~Graph() {
-}
-
-bool Graph::addEdge(Vertex *v1, Vertex *v2, double distance) {
-    if (v1 == nullptr || v2 == nullptr) return false;
-    v1->addEdge(v2, distance);
-    return true;
 }
 
 bool Graph::addBidirectionalEdge(Vertex *&v1, Vertex *&v2, double dist) {
@@ -103,7 +75,6 @@ void Graph::mstBuild() {
         }
     }
 }
-
 
 void Graph::dfsMst(Vertex *v, vInt &path, int &count) {
     v->setVisited(true);
@@ -189,11 +160,15 @@ double Graph::tspBacktracking(vInt &path, int currVertexId, double currSum, doub
 
     for (auto v: vertexSet) {
         Vertex *destVertex = v.second;
+
+        if (destVertex->isVisited())
+            continue;
+
         Edge *e = currVertex->findEdge(v.first);
         if (e == nullptr) continue;
         double dist = e->getDistance();
 
-        if (!destVertex->isVisited() && currSum + dist < bestSum) {
+        if (currSum + dist < bestSum) {
             destVertex->setVisited(true);
             thisSum = tspBacktracking(path, v.first, currSum + dist, bestSum, step + 1);
             if (thisSum < bestSum) {
@@ -278,7 +253,7 @@ double Graph::nearestNeighbourRouteTsp(vInt &path) {
     int numVisited = 1;
 
     while (numVisited < vertexSet.size()) {
-        auto minDistance = DBL_MAX;
+        double minDistance = DBL_MAX;
         for (auto e: currVertex->getAdj()) {
             if (e->getDistance() < minDistance && !e->getDest()->isVisited()) {
                 minDistance = e->getDistance();
@@ -347,14 +322,6 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
     }
 
     return bestDistance;
-}
-
-double Graph::calculateTwoOptDistance(vInt path, int i, int k, double totalDistance) {
-    double lengthDelta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
-                         calculateTwoVerticesDist(findVertex(path[k]), findVertex(path[k + 1])) +
-                         calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[k])) +
-                         calculateTwoVerticesDist(findVertex(path[i + 1]), findVertex(path[k + 1]));
-    return totalDistance + lengthDelta;
 }
 
 double Graph::calculateTwoVerticesDist(Vertex *v1, Vertex *v2) {
