@@ -324,6 +324,7 @@ void Menu::drawChooseAlgorithm() {
             break;
 
         case 4:
+            gh->christofides(path);
             break;
 
         default:
