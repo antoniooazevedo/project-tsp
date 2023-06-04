@@ -54,6 +54,7 @@ void Menu::drawMainMenu() {
     cout << "1 - Toy Graphs" << endl;
     cout << "2 - Medium Graphs" << endl;
     cout << "3 - Real Graphs" << endl;
+    cout << "4 - Example Graphs" << endl;
     cout << "q - Exit" << endl;
 
     getOption(group);
@@ -65,7 +66,7 @@ void Menu::drawMainMenu() {
         drawMenu();
     }
 
-    if (stoi(group) < 1 || stoi(group) > 3) {
+    if (stoi(group) < 1 || stoi(group) > 4) {
         cout << "Invalid option!" << endl;
         drawMenu();
     }
@@ -127,6 +128,17 @@ void Menu::drawSpecificGraphs() {
                     break;
                 }
             } while (!loadGraph(3, graph));
+            break;
+        case 4:
+            cout << "Choose which graph to load:" << endl
+                 << "1 - Graph 1" << endl
+                 << "b - Back" << endl;
+            do {
+                getOption(graph);
+                if (graph == "b" || graph == "B") {
+                    break;
+                }
+            } while (!loadGraph(4, graph));
             break;
         default:
             break;
@@ -225,6 +237,17 @@ bool Menu::loadGraph(int group, string graph) {
                     return false;
             }
             break;
+        case 4:
+            type = Scraper::toy;
+            switch (stoi(graph)) {
+                case 1:
+                    filename = "../src/example/graph1.csv";
+                    break;
+                default:
+                    cout << "Invalid option. Try Again\n";
+                    return false;
+            }
+            break;
     }
     Scraper::scrape_graph(filename, loadedGraph, type);
     gh = &loadedGraph;
@@ -259,39 +282,34 @@ void Menu::drawChooseAlgorithm() {
             distance = gh->tspBT(path);
             cout << "Total distance: " << distance << endl;
 
-            /*
+
             cout << "Path: ";
             for (int i: path) {
                 cout << i << " ";
             }
             cout << endl;
-             */
 
             break;
         case 2:
             distance = gh->calculateTahTotalDistance(path);
             cout << "Total distance: " << distance << endl;
 
-            /*
-             * cout << "Path: ";
+            cout << "Path: ";
             for (int i: path) {
                 cout << i << " ";
             }
             cout << endl;
-             */
 
             break;
         case 3:
             distance = gh->nearestNeighbourRouteTsp(path);
             cout << "Total distance: " << distance << endl;
 
-            /*
             cout << "Path: ";
             for (int i: path) {
                 cout << i << " ";
             }
             cout << endl;
-            */
 
             break;
         case 4:
@@ -303,10 +321,12 @@ void Menu::drawChooseAlgorithm() {
     chrono::duration<double> elapsed = finish - start;
 
     string yn;
-    cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!" << endl << ">> " ;
+
+    cout << "Would you like to optimize the path? (type 'y' or 'Y')" << endl << "WARNING: This may take a while!"
+         << endl << ">> ";
     getline(cin, yn);
 
-    if (yn == "y" || yn == "Y"){
+    if (yn == "y" || yn == "Y") {
         system("clear");
         cout << "Optimizing path..." << endl;
         start = chrono::high_resolution_clock::now();

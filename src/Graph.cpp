@@ -174,7 +174,9 @@ double Graph::tspBT(vInt &path) {
     findVertex(0)->setVisited(true);
     path[0] = 0;
 
-    return tspBacktracking(path, 0, 0, DBL_MAX, 1);
+    double bestDist = tspBacktracking(path, 0, 0, DBL_MAX, 1);
+    path.push_back(0);
+    return bestDist;
 
 }
 
@@ -330,10 +332,10 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
         improved = false;
         for (int i = 1; i < size - 2; i++) {
             for (int k = i + 1; k < size - 1; k++) {
-                int delta = -findVertex(path[i])->findEdge(findVertex(path[i+1])->getId())->getDistance()
-                            -findVertex(path[k])->findEdge(findVertex(path[k+1])->getId())->getDistance()
-                            +findVertex(path[i+1])->findEdge(findVertex(path[k+1])->getId())->getDistance()
-                            +findVertex(path[i])->findEdge(findVertex(path[k])->getId())->getDistance();
+                double delta = -calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[i + 1])) -
+                            calculateTwoVerticesDist(findVertex(path[k]), findVertex(path[k + 1])) +
+                            calculateTwoVerticesDist(findVertex(path[i]), findVertex(path[k])) +
+                            calculateTwoVerticesDist(findVertex(path[i + 1]), findVertex(path[k + 1]));
 
                 if (delta < 0) {
                     path = twoOptSwap(path, i, k);
