@@ -167,9 +167,10 @@ public:
      * Runs the christofides heuristic to solve the tsp problem. This version of the algorithm uses a greedy approach
      * instead of the blossom algorithm for the perfect matching step
      * Complexity: O(V²*E) where V is the number of vertixes and E the number of edges in the graph
+     * @param path vector that will be filled with the eulerian path without repeated vertexes (excluding the starting vertex)
      * @return distance travelled in the christofides algorithm for the travelling salesman problem
      */
-    double christofides();
+    double christofides(vInt &path);
 
     /**
      * Finds all the vertexes in a previously built MST that have an odd number of outgoing edges
@@ -218,6 +219,8 @@ public:
      * @return total distance that was traversed
      */
     double calculateChrisDistance(vector<Vertex *> eulerianTour);
+
+    vInt removeRepeatingVertexes(vector<Vertex *> path);
 
 protected:
     std::unordered_map<int, Vertex *> vertexSet; /**< The map with all the vertexes of the graph */

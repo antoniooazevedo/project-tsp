@@ -302,7 +302,6 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
     double newDistance = bestDistance;
     auto size = path.size();
     bool improved = true;
-    int count = 0;
 
     while (improved) {
         improved = false;
@@ -316,7 +315,6 @@ double Graph::twoOpt(vInt &path, double bestDistance) {
                     path = twoOptSwap(path, i, k);
                     bestDistance += delta;
                     improved = true;
-                    count++;
                 }
             }
         }
@@ -425,6 +423,25 @@ vector<Vertex *> Graph::mergePath(vector<Vertex *> &eulerianTour, vector<Vertex 
     return newTour;
 }
 
+vInt Graph::removeRepeatingVertexes(vector<Vertex *> path) {
+    vInt unique_path;
+
+    for (auto v: vertexSet) {
+        v.second->setVisited(false);
+    }
+
+    for (Vertex *v: path) {
+        if (!v->isVisited()) {
+            unique_path.push_back(v->getId());
+            v->setVisited(true);
+        }
+    }
+
+    unique_path.push_back(0);
+
+    return unique_path;
+}
+
 double Graph::calculateChrisDistance(vector<Vertex *> eulerianTour) {
     unordered_set<Vertex *> visited;
     double dist = 0;
@@ -446,7 +463,7 @@ double Graph::calculateChrisDistance(vector<Vertex *> eulerianTour) {
     return dist;
 }
 
-double Graph::christofides() {
+double Graph::christofides(vInt &path) {
     mstBuild();
 
     vector<Vertex *> oddDegreeVertices = findOddDegreeVertexes();
@@ -454,6 +471,8 @@ double Graph::christofides() {
     greedyPerfectMatching(oddDegreeVertices);
 
     vector<Vertex *> eulerianTour = buildEulerianTour();
+
+    path = removeRepeatingVertexes(eulerianTour);
 
     return calculateChrisDistance(eulerianTour);
 }
